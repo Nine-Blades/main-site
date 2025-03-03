@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guides - Kingdom of the Nine Blades</title>
+    <meta name="description" content="Explore our comprehensive guides for Amtgard LARP, including class guides, rulebooks, and more.">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <style>
+        /* Guides Page Specific Styles */
+        .guides-header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 3rem 1rem;
+            text-align: center;
+            margin-top: 60px;
+        }
+        
+        .guides-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-family: 'MedievalSharp', cursive;
+        }
+        
+        .guides-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+        
+        .guides-category {
+            margin-bottom: 3rem;
+        }
+        
+        .guides-category h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        .guides-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .guide-item {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+        
+        body.dark-mode .guide-item {
+            background: #2b2b2b;
+        }
+        
+        .guide-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+        
+        .guide-item a {
+            display: block;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+        
+        .guide-item h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .guide-item p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+    </style>
+    <!-- Favicon -->
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <!-- Navbar is loaded dynamically via JavaScript -->
+
+    <!-- Guides Header -->
+    <header class="guides-header">
+        <h1>Amtgard Guides & Resources</h1>
+        <p>Everything you need to know about playing Amtgard in the Kingdom of the Nine Blades</p>
+    </header>
+
+    <!-- Guides Content -->
+    <div class="guides-container">
+        <!-- Class Guides -->
+        <section class="guides-category">
+            <h2>Class Guides</h2>
+            <div class="guides-list">
+                <div class="guide-item">
+                    <a href="/guides/warrior">
+                        <h3>Warrior</h3>
+                        <p>Master the art of combat with our comprehensive Warrior class guide.</p>
+                    </a>
+                </div>
+                <div class="guide-item">
+                    <a href="/guides/scout">
+                        <h3>Scout</h3>
+                        <p>Learn the ways of stealth and archery with our Scout class guide.</p>
+                    </a>
+                </div>
+                <div class="guide-item">
+                    <a href="/guides/healer">
+                        <h3>Healer</h3>
+                        <p>Discover the healing arts and support abilities of the Healer class.</p>
+                    </a>
+                </div>
+                <div class="guide-item">
+                    <a href="/guides/wizard">
+                        <h3>Wizard</h3>
+                        <p>Harness the arcane powers with our Wizard class guide.</p>
+                    </a>
+                </div>
+                <div class="guide-item">
+                    <a href="/guides/assassin">
+                        <h3>Assassin</h3>
+                        <p>Master the art of stealth and precision with our Assassin class guide.</p>
+                    </a>
+                </div>
+                <div class="guide-item">
+                    <a href="/guides/monk">
+                        <h3>Monk</h3>
+                        <p>Learn the ways of unarmed combat with our Monk class guide.</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rulebooks & Core Resources -->
+        <section class="guides-category">
+            <h2>Rulebooks & Core Resources</h2>
+            <div class="guides-list">
+                <div class="guide-item">
+                    <a href="/guides/rulebook">
+                        <h3>Amtgard Rulebook 8.0</h3>
+                        <p>The official Amtgard rulebook with all game mechanics and rules.</p>
+                    </a>
+                </div>
+                <div class="guide-item">
+                    <a href="/guides/equipment">
+                        <h3>Equipment Standards</h3>
+                        <p>Learn how to make safe and approved weapons and equipment.</p>
+                    </a>
+                </div>
+                <div class="guide-item">
+                    <a href="/guides/corpora">
+                        <h3>Nine Blades Corpora</h3>
+                        <p>The governing documents for the Kingdom of the Nine Blades.</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Getting Started -->
+        <section class="guides-category">
+            <h2>Getting Started</h2>
+            <div class="guides-list">
+                <div class="guide-item">
+                    <a href="/guides/first-day">
+                        <h3>Your First Day</h3>
+                        <p>What to expect and how to prepare for your first Amtgard event.</p>
+                    </a>
+                </div>
+                <div class="guide-item">
+                    <a href="/guides/garb">
+                        <h3>Basic Garb Guide</h3>
+                        <p>How to create or acquire your first medieval garb for Amtgard.</p>
+                    </a>
+                </div>
+                <div class="guide-item">
+                    <a href="/guides/weapon-crafting">
+                        <h3>Weapon Crafting</h3>
+                        <p>Step-by-step tutorials for making your first foam weapons.</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="/js/navbar.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>

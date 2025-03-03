@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapters - Kingdom of the Nine Blades</title>
+    <meta name="description" content="Explore the chapters of the Kingdom of the Nine Blades Amtgard LARP community across Ontario.">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <style>
+        /* Chapters Page Specific Styles */
+        .chapters-header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 3rem 1rem;
+            text-align: center;
+            margin-top: 60px;
+        }
+        
+        .chapters-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-family: 'MedievalSharp', cursive;
+        }
+        
+        .chapters-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+        
+        .chapters-intro {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .chapters-intro p {
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+        
+        .chapters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .chapter-card {
+            position: relative;
+            height: 300px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .chapter-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        
+        .chapter-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            filter: brightness(0.7);
+            transition: filter 0.3s ease;
+        }
+        
+        .chapter-card:hover .chapter-bg {
+            filter: brightness(0.5);
+        }
+        
+        .chapter-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            text-align: center;
+            color: white;
+        }
+        
+        .chapter-heraldry {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: white;
+            padding: 5px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+        }
+        
+        .chapter-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            font-family: 'MedievalSharp', cursive;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .chapter-city {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .chapter-link {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            text-indent: -9999px;
+        }
+    </style>
+    <!-- Favicon -->
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <!-- Navbar is loaded dynamically via JavaScript -->
+
+    <!-- Chapters Header -->
+    <header class="chapters-header">
+        <h1>Ontario Chapters</h1>
+        <p>Find an Amtgard chapter near you in the Kingdom of the Nine Blades</p>
+    </header>
+
+    <!-- Chapters Content -->
+    <div class="chapters-container">
+        <div class="chapters-intro">
+            <p>The Kingdom of the Nine Blades has chapters across Ontario, each with its own unique culture and community. Click on a chapter to learn more about its location, meeting times, and the volunteers who make it all possible.</p>
+        </div>
+        
+        <div class="chapters-grid">
+            <!-- Twilight Peak (Toronto) -->
+            <div class="chapter-card">
+                <img src="/assets/img/irl/Forest_dark.jpg" alt="Twilight Peak Background" class="chapter-bg">
+                <div class="chapter-content">
+                    <img src="/assets/img/heraldry/TWILIGHT_PEAK_Heraldry-1.png" alt="Twilight Peak Heraldry" class="chapter-heraldry">
+                    <h2 class="chapter-name">Twilight Peak</h2>
+                    <p class="chapter-city">Toronto</p>
+                </div>
+                <a href="/chapters/twilight-peak" class="chapter-link">View Twilight Peak</a>
+            </div>
+            
+            <!-- Felfrost (Ottawa) -->
+            <div class="chapter-card">
+                <img src="/assets/img/irl/Forest_dark.jpg" alt="Felfrost Background" class="chapter-bg">
+                <div class="chapter-content">
+                    <img src="/assets/img/heraldry/210114-Felfrost-PNG.png" alt="Felfrost Heraldry" class="chapter-heraldry">
+                    <h2 class="chapter-name">Felfrost</h2>
+                    <p class="chapter-city">Ottawa</p>
+                </div>
+                <a href="/chapters/felfrost" class="chapter-link">View Felfrost</a>
+            </div>
+            
+            <!-- Linnagond (Sudbury) -->
+            <div class="chapter-card">
+                <img src="/assets/img/irl/Forest_dark.jpg" alt="Linnagond Background" class="chapter-bg">
+                <div class="chapter-content">
+                    <img src="/assets/img/heraldry/220912-Linnagond-Heraldry-PNG.png" alt="Linnagond Heraldry" class="chapter-heraldry">
+                    <h2 class="chapter-name">Linnagond</h2>
+                    <p class="chapter-city">Sudbury</p>
+                </div>
+                <a href="/chapters/linnagond" class="chapter-link">View Linnagond</a>
+            </div>
+            
+            <!-- Heathens Cove (Kingston) -->
+            <div class="chapter-card">
+                <img src="/assets/img/irl/Forest_dark.jpg" alt="Heathens Cove Background" class="chapter-bg">
+                <div class="chapter-content">
+                    <img src="/assets/img/heraldry/210114-Heathens-Cove-Transparent-PNG.png" alt="Heathens Cove Heraldry" class="chapter-heraldry">
+                    <h2 class="chapter-name">Heathens Cove</h2>
+                    <p class="chapter-city">Kingston</p>
+                </div>
+                <a href="/chapters/heathens-cove" class="chapter-link">View Heathens Cove</a>
+            </div>
+            
+            <!-- Lichwood Grove (Kitchener) -->
+            <div class="chapter-card">
+                <img src="/assets/img/irl/Forest_dark.jpg" alt="Lichwood Grove Background" class="chapter-bg">
+                <div class="chapter-content">
+                    <img src="/assets/img/heraldry/LWG_Heraldry.png" alt="Lichwood Grove Heraldry" class="chapter-heraldry">
+                    <h2 class="chapter-name">Lichwood Grove</h2>
+                    <p class="chapter-city">Kitchener</p>
+                </div>
+                <a href="/chapters/lichwood-grove" class="chapter-link">View Lichwood Grove</a>
+            </div>
+            
+            <!-- Bellhollow (Brantford) -->
+            <div class="chapter-card">
+                <img src="/assets/img/irl/Forest_dark.jpg" alt="Bellhollow Background" class="chapter-bg">
+                <div class="chapter-content">
+                    <img src="/assets/img/heraldry/210114-Bellhollow-PNG.png" alt="Bellhollow Heraldry" class="chapter-heraldry">
+                    <h2 class="chapter-name">Bellhollow</h2>
+                    <p class="chapter-city">Brantford</p>
+                </div>
+                <a href="/chapters/bellhollow" class="chapter-link">View Bellhollow</a>
+            </div>
+            
+            <!-- Silva Urbem (London) -->
+            <div class="chapter-card">
+                <img src="/assets/img/irl/Forest_dark.jpg" alt="Silva Urbem Background" class="chapter-bg">
+                <div class="chapter-content">
+                    <img src="/assets/img/heraldry/SU_Heraldry.png" alt="Silva Urbem Heraldry" class="chapter-heraldry">
+                    <h2 class="chapter-name">Silva Urbem</h2>
+                    <p class="chapter-city">London</p>
+                </div>
+                <a href="/chapters/silva-urbem" class="chapter-link">View Silva Urbem</a>
+            </div>
+            
+            <!-- Legends Library (Barrie) -->
+            <div class="chapter-card">
+                <img src="/assets/img/irl/Forest_dark.jpg" alt="Legends Library Background" class="chapter-bg">
+                <div class="chapter-content">
+                    <img src="/assets/img/heraldry/IkateBook.png" alt="Legends Library Heraldry" class="chapter-heraldry">
+                    <h2 class="chapter-name">Legends Library</h2>
+                    <p class="chapter-city">Barrie</p>
+                </div>
+                <a href="/chapters/legends-library" class="chapter-link">View Legends Library</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="/js/navbar.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>

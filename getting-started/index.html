@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started - Kingdom of the Nine Blades</title>
+    <meta name="description" content="Start your Amtgard journey with the Kingdom of the Nine Blades. Learn how to join, what to bring, and find a chapter near you.">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <style>
+        /* Getting Started Page Specific Styles */
+        .getting-started-header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 3rem 1rem;
+            text-align: center;
+            margin-top: 60px;
+        }
+        
+        .getting-started-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-family: 'MedievalSharp', cursive;
+        }
+        
+        .getting-started-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+        
+        .steps-container {
+            margin-bottom: 4rem;
+        }
+        
+        .step-title {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        .step {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            align-items: start;
+        }
+        
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .step-content h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+        
+        .step-content p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        .step-content ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .step-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: var(--transition);
+        }
+        
+        .download-btn:hover {
+            background: #a31616;
+            transform: translateY(-2px);
+        }
+        
+        .chapters-grid {
+            display: flex;
+            grid-template-columns: repeat(auto-fill);
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .chapter-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+        
+        body.dark-mode .chapter-card {
+            background: #2b2b2b;
+        }
+        
+        .chapter-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+        
+        .chapter-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .chapter-content {
+            padding: 1.5rem;
+        }
+        
+        .chapter-content p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .chapter-content strong {
+            color: var(--primary-color);
+        }
+        
+        .faq-section {
+            margin-top: 4rem;
+        }
+        
+        .faq-item {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1.5rem;
+        }
+        
+        .faq-question {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .step {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .step-number {
+                margin: 0 auto 1rem auto;
+            }
+        }
+    </style>
+    <!-- Favicon -->
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <!-- Navbar is loaded dynamically via JavaScript -->
+
+    <!-- Getting Started Header -->
+    <header class="getting-started-header">
+        <h1>Getting Started with Amtgard</h1>
+        <p>Your journey into medieval fantasy combat begins here</p>
+    </header>
+
+    <!-- Getting Started Content -->
+    <div class="getting-started-container">
+        <!-- Steps Section -->
+        <section class="steps-container">
+            <h2 class="step-title">How to Join Amtgard in 5 Easy Steps</h2>
+            
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Find a Chapter Near You</h3>
+                    <p>The first step is to locate your nearest Amtgard chapter (called a "park"). We have chapters across Canada that meet regularly, usually on weekends.</p>
+                    <p>Scroll down to see our chapter locations and meeting times, or use the <a href="#chapters">chapter finder</a> below.</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Attend Your First Park Day</h3>
+                    <p>Just show up! No reservation needed. We recommend wearing comfortable clothes and closed-toe shoes. For your first visit, you don't need to bring anything special - we have loaner equipment for newcomers.</p>
+                    <p>When you arrive, introduce yourself as a new player, and someone will help get you started.</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Sign a Waiver</h3>
+                    <p>Amtgard is a physical activity, so all players need to sign a waiver. If you're under 18, you'll need a parent or guardian to sign for you.</p>
+                    <p>You can download the waiver below and bring it with you, or sign one when you arrive.</p>
+                    <a href="/assets/doc/9b_liabilitywaiver_2021-1.pdf" class="download-btn">Download Waiver</a>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Learn the Basics</h3>
+                    <p>During your first few visits, you'll learn:</p>
+                    <ul>
+                        <li>Basic combat rules and safety</li>
+                        <li>How to use foam weapons</li>
+                        <li>Different character classes and their abilities</li>
+                        <li>Game mechanics and scenarios</li>
+                    </ul>
+                    <p>Don't worry about learning everything at once - our experienced players will guide you through the process.</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <h3>Create Your Own Equipment</h3>
+                    <p>Once you've decided to join regularly, you'll want to make or acquire your own equipment:</p>
+                    <ul>
+                        <li>Foam weapons (we can teach you how to make these)</li>
+                        <li>Medieval/fantasy clothing (called "garb")</li>
+                        <li>Optional: shields, spell components, etc.</li>
+                    </ul>
+                    <p>Check out our <a href="/guides/equipment">equipment guides</a> for detailed instructions on making your own gear.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Chapters Section -->
+        <section id="chapters" class="chapters-section">
+            <h2 class="step-title">Find a Chapter Near You</h2>
+            <h3>The Kingdom of the Nine Blades has chapters across Ontario.</h3>
+
+            <br>
+
+            <h2>
+                <b>Find the one closest to you:</b>
+            </h2>
+            
+            <div class="chapters-grid">
+                <a class="download-btn" href="/chapters/legends-library/">
+                    <h3>Barrie</h3>
+                </a>
+                <a class="download-btn" href="/chapters/bellhollow/">
+                    <h3>Brantford</h3>
+                </a>
+                <a class="download-btn" href="/chapters/heathens-cove/">
+                    <h3>Kingston</h3>
+                </a>
+                <a class="download-btn" href="/chapters/silva-urbem/">
+                    <h3>London</h3>
+                </a>
+                <a class="download-btn" href="/chapters/felfrost/">
+                    <h3>Ottawa</h3>
+                </a>
+                <a class="download-btn" href="/chapters/linnagond/">
+                    <h3>Peterborough</h3>
+                </a>
+                <a class="download-btn" href="/chapters/wolvenfang/">
+                    <h3>Sudbury</h3>
+                </a>
+                <a class="download-btn" href="/chapters/twilight-peak/">
+                    <h3>Toronto</h3>
+                </a>
+            </div>
+        </section>
+        
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <h2 class="step-title">Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">How much does it cost to play Amtgard?</div>
+                <div class="faq-answer">
+                    <p>Amtgard is free to try! There are no mandatory fees to participate in weekly park days. Some players choose to pay optional dues (typically $5-10 per month) to support the chapter and gain voting rights, but this is not required to play.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Is Amtgard safe?</div>
+                <div class="faq-answer">
+                    <p>Safety is our top priority. All weapons are made of foam with a lightweight core and must pass safety inspections. We have strict rules about hit strength and target areas. Like any physical activity, there is some risk of minor injuries (bruises, twisted ankles, etc.), but serious injuries are rare.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">What age do I need to be to play?</div>
+                <div class="faq-answer">
+                    <p>Players must be at least 14 years old to participate in combat. Children under 14 can participate in non-combat activities with parent/guardian supervision. Players under 18 need a waiver signed by a parent or guardian.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Do I need to be athletic or in good shape?</div>
+                <div class="faq-answer">
+                    <p>Not at all! Amtgard welcomes players of all fitness levels and abilities. While combat can be physically demanding, there are many roles and classes that don't require high athleticism. You can participate at your own pace and comfort level.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">What should I wear for my first day?</div>
+                <div class="faq-answer">
+                    <p>For your first visit, comfortable clothes you can move in and closed-toe shoes are all you need. Athletic wear, t-shirts and sweatpants, or similar casual clothes are perfect. Medieval garb is not required for newcomers, though you'll likely want to start acquiring or making some as you continue playing.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="/js/navbar.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>

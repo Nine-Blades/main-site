@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scout Class Guide - Kingdom of the Nine Blades</title>
+    <meta name="description" content="Learn how to play the Scout class in Amtgard. Discover abilities, strategies, and tips for archers and scouts.">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <style>
+        /* Class Guide Specific Styles */
+        .class-header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 3rem 1rem;
+            text-align: center;
+            margin-top: 60px;
+        }
+        
+        .class-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-family: 'MedievalSharp', cursive;
+        }
+        
+        .class-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+        
+        .class-intro {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            align-items: start;
+        }
+        
+        .class-image {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .class-stats {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        body.dark-mode .class-stats {
+            background: #2b2b2b;
+        }
+        
+        .class-stats h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            text-align: center;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+        
+        .stat-name {
+            font-weight: bold;
+        }
+        
+        .class-section {
+            margin-bottom: 3rem;
+        }
+        
+        .class-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        .class-section p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        .abilities-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .ability-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        body.dark-mode .ability-card {
+            background: #2b2b2b;
+        }
+        
+        .ability-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+        }
+        
+        .ability-card p {
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+        }
+        
+        .ability-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 1rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid #eee;
+        }
+        
+        body.dark-mode .ability-meta {
+            color: #aaa;
+        }
+        
+        .tips-list {
+            margin-left: 1.5rem;
+        }
+        
+        .tips-list li {
+            margin-bottom: 1rem;
+        }
+        
+        .equipment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .equipment-item {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        body.dark-mode .equipment-item {
+            background: #2b2b2b;
+        }
+        
+        .equipment-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .equipment-content {
+            padding: 1rem;
+        }
+        
+        .equipment-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .class-intro {
+                grid-template-columns: 1fr;
+            }
+            
+            .class-image {
+                margin-bottom: 1.5rem;
+                order: -1;
+            }
+        }
+    </style>
+    <!-- Favicon -->
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <!-- Navbar is loaded dynamically via JavaScript -->
+
+    <!-- Class Header -->
+    <header class="class-header">
+        <h1>Scout Class Guide</h1>
+        <p>Master the art of archery and reconnaissance in Amtgard</p>
+    </header>
+
+    <!-- Class Content -->
+    <div class="class-container">
+        <!-- Class Introduction -->
+        <div class="class-intro">
+            <div class="class-description">
+                <p>The Scout is Amtgard's archer and reconnaissance specialist. Scouts excel at ranged combat, tracking, and providing battlefield intelligence. With their unique combination of archery, stealth, and utility abilities, Scouts are versatile fighters who can adapt to many different combat situations.</p>
+                
+                <p>Scouts are one of the few classes that can effectively engage enemies from a distance, making them valuable assets in both small skirmishes and large battles. Their tracking abilities also make them excellent hunters during quests and special scenarios.</p>
+                
+                <p>This guide will help you understand the Scout's abilities, equipment, and strategies to become an effective archer and reconnaissance specialist in the Kingdom of the Nine Blades.</p>
+            </div>
+            
+            <div class="class-sidebar">
+                <img src="/assets/img/rules/scoutphoto.jpg" alt="Scout Class" class="class-image">
+                
+                <div class="class-stats">
+                    <h3>Class Stats</h3>
+                    
+                    <div class="stat-item">
+                        <span class="stat-name">Lives:</span>
+                        <span class="stat-value">4</span>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <span class="stat-name">Armor:</span>
+                        <span class="stat-value">Points: 3</span>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <span class="stat-name">Shields:</span>
+                        <span class="stat-value">Small</span>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <span class="stat-name">Weapons:</span>
+                        <span class="stat-value">All</span>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <span class="stat-name">Difficulty:</span>
+                        <span class="stat-value">★★★☆☆</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Abilities Section -->
+        <section class="class-section">
+            <h2>Scout Abilities</h2>
+            <p>Scouts have a variety of abilities focused on archery, tracking, and mobility. Here are the key abilities you'll have access to:</p>
+            
+            <div class="abilities-list">
+                <div class="ability-card">
+                    <h3>Tracking</h3>
+                    <p>Allows the Scout to track other players who have passed through an area, revealing information about their direction and numbers.</p>
+                    <p><strong>Usage:</strong> Announce "Tracking" and you may ask a reeve or the tracked players about recent movement through the area.</p>
+                    <div class="ability-meta">
+                        <span>Type: Neutral</span>
+                        <span>Uses: Unlimited</span>
+                    </div>
+                </div>
+                
+                <div class="ability-card">
+                    <h3>Bowyer</h3>
+                    <p>Allows the Scout to repair a broken bow without visiting nirvana.</p>
+                    <p><strong>Usage:</strong> Touch the broken bow with both hands and state "Mending Arrow".</p>
+                    <div class="ability-meta">
+                        <span>Type: Neutral</span>
+                        <span>Uses: 1/life</span>
+                    </div>
+                </div>
+                
+                <div class="ability-card">
+                    <h3>Stun Arrow</h3>
+                    <p>A special arrow that causes the target to be stunned for 30 seconds if hit in the limbs, or 60 seconds if hit in the torso.</p>
+                    <p><strong>Usage:</strong> Call "Stun Arrow" before firing.</p>
+                    <div class="ability-meta">
+                        <span>Type: Offensive</span>
+                        <span>Uses: 1/life</span>
+                    </div>
+                </div>
+                
+                <div class="ability-card">
+                    <h3>Flame Arrow</h3>
+                    <p>A special arrow that does one point of damage to armor and continues through to do one point of damage to the target.</p>
+                    <p><strong>Usage:</strong> Call "Flame Arrow" before firing.</p>
+                    <div class="ability-meta">
+                        <span>Type: Offensive</span>
+                        <span>Uses: 1/life</span>
+                    </div>
+                </div>
+                
+                <div class="ability-card">
+                    <h3>Phase Arrow</h3>
+                    <p>A special arrow that passes through all armor and shield to do one point of damage directly to the target.</p>
+                    <p><strong>Usage:</strong> Call "Phase Arrow" before firing.</p>
+                    <div class="ability-meta">
+                        <span>Type: Offensive</span>
+                        <span>Uses: 1/game</span>
+                    </div>
+                </div>
+                
+                <div class="ability-card">
+                    <h3>Camouflage</h3>
+                    <p>Allows the Scout to become hidden from view when stationary and touching a natural feature.</p>
+                    <p><strong>Usage:</strong> Touch a tree, bush, or large rock and announce "Camouflage".</p>
+                    <div class="ability-meta">
+                        <span>Type: Defensive</span>
+                        <span>Uses: 1/life</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Strategy Section -->
+        <section class="class-section">
+            <h2>Playing a Scout Effectively</h2>
+            <p>To be an effective Scout, you need to understand your role on the battlefield and how to maximize your unique abilities:</p>
+            
+            <h3>Combat Strategy</h3>
+            <ul class="tips-list">
+                <li><strong>Maintain Distance:</strong> Your greatest advantage is range. Try to stay away from melee combat where other classes have the advantage.</li>
+                <li><strong>Use Terrain:</strong> Position yourself on high ground or behind cover to make it harder for enemies to reach you.</li>
+                <li><strong>Save Special Arrows:</strong> Don't use your special arrows (Stun, Flame, Phase) on easy targets. Save them for armored opponents or critical moments.</li>
+                <li><strong>Support Your Team:</strong> Focus fire on enemies engaging your teammates, especially healers or other vulnerable allies.</li>
+                <li><strong>Know When to Retreat:</strong> If enemies close in on you, don't hesitate to fall back to your team's line.</li>
+            </ul>
+            
+            <h3>Reconnaissance</h3>
+            <ul class="tips-list">
+                <li><strong>Scout Ahead:</strong> Use your Tracking and Camouflage abilities to gather information about enemy positions and movements.</li>
+                <li><strong>Report Back:</strong> Information is only valuable if shared. Make sure to communicate what you've learned to your team.</li>
+                <li><strong>Mark Targets:</strong> Call out high-value targets for your team to focus on.</li>
+            </ul>
+        </section>
+        
+        <!-- Equipment Section -->
+        <section class="class-section">
+            <h2>Scout Equipment</h2>
+            <p>As a Scout, your primary weapon will be a bow, but you should also carry backup weapons for close combat. Here's recommended equipment:</p>
+            
+            <div class="equipment-grid">
+                <div class="equipment-item">
+                    <img src="https://dummyimage.com/600x400/ccc/fff" alt="Bow" class="equipment-image">
+                    <div class="equipment-content">
+                        <h3>Bow</h3>
+                        <p>Your primary weapon. A well-constructed bow with good draw weight and accuracy is essential.</p>
+                    </div>
+                </div>
+                
+                <div class="equipment-item">
+                    <img src="https://dummyimage.com/600x400/ccc/fff" alt="Arrows" class="equipment-image">
+                    <div class="equipment-content">
+                        <h3>Arrows</h3>
+                        <p>Carry plenty of arrows (at least 5-10). Make sure they're well-padded and pass safety checks.</p>
+                    </div>
+                </div>
+                
+                <div class="equipment-item">
+                    <img src="https://dummyimage.com/600x400/ccc/fff" alt="Short Sword" class="equipment-image">
+                    <div class="equipment-content">
+                        <h3>Backup Weapon</h3>
+                        <p>A short sword or dagger for when enemies get too close for archery.</p>
+                    </div>
+                </div>
+                
+                <div class="equipment-item">
+                    <img src="https://dummyimage.com/600x400/ccc/fff" alt="Light Armor" class="equipment-image">
+                    <div class="equipment-content">
+                        <h3>Light Armor</h3>
+                        <p>Scouts can wear up to 3 points of armor. Leather or padded armor works well.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Leveling Path -->
+        <section class="class-section">
+            <h2>Scout Advancement Path</h2>
+            <p>As you gain experience and levels in the Scout class, you'll gain access to more powerful abilities:</p>
+            
+            <h3>Level 1</h3>
+            <ul class="tips-list">
+                <li>Tracking</li>
+                <li>Bowyer (1/life)</li>
+            </ul>
+            
+            <h3>Level 2</h3>
+            <ul class="tips-list">
+                <li>Stun Arrow (1/life)</li>
+                <li>Camouflage (1/life)</li>
+            </ul>
+            
+            <h3>Level 3</h3>
+            <ul class="tips-list">
+                <li>Flame Arrow (1/life)</li>
+                <li>Improved Tracking (can track for longer periods)</li>
+            </ul>
+            
+            <h3>Level 4</h3>
+            <ul class="tips-list">
+                <li>Phase Arrow (1/game)</li>
+                <li>Additional Stun Arrow (2/life total)</li>
+            </ul>
+            
+            <h3>Level 5</h3>
+            <ul class="tips-list">
+                <li>Improved Camouflage (2/life)</li>
+                <li>Additional Flame Arrow (2/life total)</li>
+            </ul>
+            
+            <h3>Level 6</h3>
+            <ul class="tips-list">
+                <li>Additional Phase Arrow (2/game total)</li>
+                <li>Master Archer (improved accuracy and range)</li>
+            </ul>
+        </section>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="/js/navbar.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>
