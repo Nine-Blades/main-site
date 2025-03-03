@@ -36,8 +36,6 @@ This is a redesigned version of the nineblades.ca website for the Kingdom of the
 │   │   └── index.html     # Lichwood Grove chapter page
 │   ├── bellhollow/        # Brantford chapter
 │   │   └── index.html     # Bellhollow chapter page
-│   ├── silva-urbem/       # London chapter
-│   │   └── index.html     # Silva Urbem chapter page
 │   └── legends-library/   # Barrie chapter
 │       └── index.html     # Legends Library chapter page
 └── getting-started/
