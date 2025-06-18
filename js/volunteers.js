@@ -22,11 +22,11 @@ const PARK_IDS = {
 
 // Map of officer positions to their display names
 const OFFICER_POSITIONS = {
-    'monarch': 'Monarch',
-    'regent': 'Regent',
-    'chancellor': 'Chancellor',
-    'champion': 'Champion',
-    'gm_reeves': 'Guild Master of Reeves'
+    'Monarch': 'Monarch',
+    'Regent': 'Regent',
+    'Prime Minister': 'Prime Minister',
+    'Champion': 'Champion',
+    'GMR': 'GMR'
 };
 
 /**
@@ -36,14 +36,14 @@ const OFFICER_POSITIONS = {
  */
 async function fetchOfficers(parkId) {
     try {
-        const response = await fetch(`ork.amtgard.com/orkui/index.php?Route=Park/index/${parkId}`);
+        const response = await fetch('https://ork.amtgard.com/orkservice/Json/index.php?request=&call=Park/GetOfficers&request[ParkId]=' + parkId);
         
         if (!response.ok) {
             throw new Error(`Failed to fetch officers: ${response.status}`);
         }
         
         const data = await response.json();
-        return data.officers || [];
+        return data.Officers || [];
     } catch (error) {
         console.error('Error fetching officer data:', error);
         return [];
@@ -59,13 +59,12 @@ function createVolunteerCard(officer) {
     const card = document.createElement('div');
     card.className = 'volunteer-card';
     
-    const position = OFFICER_POSITIONS[officer.position] || officer.position;
+    const position = OFFICER_POSITIONS[officer.OfficerRole] || officer.OfficerRole;
     
     card.innerHTML = `
         <div class="volunteer-header">${position}</div>
         <div class="volunteer-content">
-            <div class="volunteer-name">${officer.persona || 'Vacant'}</div>
-            <div class="volunteer-title">${officer.title || ''}</div>
+            <div class="volunteer-name">${officer.Persona || 'Vacant'}</div>
         </div>
     `;
     
@@ -77,8 +76,8 @@ function createVolunteerCard(officer) {
  */
 async function loadVolunteers() {
     // Get the current chapter from the URL path
-    const pathParts = window.location.pathname.split('/');
-    const chapterSlug = pathParts[pathParts.length - 2] || pathParts[pathParts.length - 1];
+    const url = window.location.href.replace(/\/$/, ''); 
+    const chapterSlug = url.substr(url.lastIndexOf('/') + 1);
     
     // Get the park ID for this chapter
     const parkId = PARK_IDS[chapterSlug];
@@ -113,7 +112,7 @@ async function loadVolunteers() {
     
     // Create and append volunteer cards
     for (const position of Object.keys(OFFICER_POSITIONS)) {
-        const officer = officers.find(o => o.position === position) || { position };
+        const officer = officers.find(o => o.OfficerRole === OFFICER_POSITIONS[position]) || { position };
         const card = createVolunteerCard(officer);
         volunteersGrid.appendChild(card);
     }
