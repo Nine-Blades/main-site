@@ -17,7 +17,8 @@ const PARK_IDS = {
     'lichwood-grove': 615, // Replace with actual ORK park ID
     'bellhollow': 609,    // Replace with actual ORK park ID
     'silva-urbem': 404,   // Replace with actual ORK park ID
-    'legends-library': 505 // Replace with actual ORK park ID
+    'legends-library': 505, // Replace with actual ORK park ID
+    'wolvenfang': 77 // Replace with actual ORK park ID
 };
 
 // Map of officer positions to their display names
