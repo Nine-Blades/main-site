@@ -21,35 +21,108 @@
 
     gtag('config', 'G-BWQRL0R2B9');
     </script>
+    <style>
+                /* About Page Specific Styles */
+        .about-header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 3rem 1rem;
+            text-align: center;
+            margin-top: 60px;
+        }
+        
+        .about-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-family: 'MedievalSharp', cursive;
+        }
+        
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+        
+        .about-section {
+            margin-bottom: 4rem;
+        }
+        
+        .about-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .about-image {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .about-text p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        .about-text ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .about-text li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .about-cta {
+            background: var(--primary-color);
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .about-cta h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+    </style>
 </head>
 <body>
     <!-- Navbar is loaded dynamically via JavaScript -->
-
-    <!-- Hero Carousel -->
-    <div class="hero-carousel">
-        <div class="carousel-slide active">
-            <img src="/assets/img/irl/366717347_6659452824118040_3584427881130495636_n.jpg" alt="Nine Blades LARP Community" class="carousel-image">
-        </div>
-    </div>
-
+    <!-- About Header -->
+    <header class="about-header">
+        <h1>Welcome to the Kingdom of the Nine Blades</h1>
+        <p>A Canadian Kingdom of Amtgard in Ontario, Canada</p>
+    </header>
     <!-- Guides Section -->
     <section class="guides-section">
         <div class="guides-grid">
             <div class="guide-card">
-                <img src="/assets/img/irl/IMG_0209.png" alt="Guides" class="guide-image">
+                <img src="/assets/img/irl/298062219_10218838246102325_4163782882865631337_n.jpg" alt="About Amtgard" class="guide-image">
                 <div class="guide-content">
-                    <h3 class="guide-title">Guides and Player Information</h3>
-                    <p>Here you will find our Amtgard Basics guide, as well as Class Guides, Titles Guide, Volunteer and Chapter Officer Guides, and more!</p>
-                    <a href="/guides" class="guide-button">View Guides</a>
+                    <h3 class="guide-title">What is Amtgard?</h3>
+                    <p>Amtgard is a Live Action Roleplaying (LARP) and boffer combat sport. How do we differ from the LARPs you've seen on TV? In this guide, we'll explain everything you need to know!</p>
+                    <a href="/about" class="guide-button">Learn More</a>
                 </div>
             </div>
 
             <div class="guide-card">
-                <img src="/assets/img/irl/298062219_10218838246102325_4163782882865631337_n.jpg" alt="About Amtgard" class="guide-image">
+                <img src="/assets/img/irl/337275383_176989995193823_6924363000846363724_n.jpg" alt="Chapters" class="guide-image">
                 <div class="guide-content">
-                    <h3 class="guide-title">What is Amtgard?</h3>
-                    <p>What exactly is a Boffer Sport, and how do we differ from the LARPs you've seen on TV? In this guide, we'll explain everything you need to know!</p>
-                    <a href="/about" class="guide-button">Learn More</a>
+                    <h3 class="guide-title">Find a Chapter Near You</h3>
+                    <p>Discover Amtgard Chapters across Ontario. Find meeting times, locations, and connect with your local community to start your adventure!</p>
+                    <a href="/chapters" class="guide-button">Find Chapters</a>
                 </div>
             </div>
 
@@ -61,17 +134,25 @@
                     <a href="/getting-started" class="guide-button">Start Now</a>
                 </div>
             </div>
-            
+
             <div class="guide-card">
-                <img src="/assets/img/irl/337275383_176989995193823_6924363000846363724_n.jpg" alt="Chapters" class="guide-image">
+                <img src="/assets/img/irl/IMG_0209.png" alt="Guides" class="guide-image">
                 <div class="guide-content">
-                    <h3 class="guide-title">Find a Chapter Near You</h3>
-                    <p>Discover Amtgard chapters across Ontario. Find meeting times, locations, and connect with your local community to start your adventure!</p>
-                    <a href="/chapters" class="guide-button">Find Chapters</a>
+                    <h3 class="guide-title">Guides and Player Information</h3>
+                    <p>Here you will find our Amtgard Basics guide, as well as Class Guides, Titles Guide, Volunteer and Chapter Officer Guides, and more!</p>
+                    <a href="/guides" class="guide-button">View Guides</a>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Hero Carousel -->
+    <!-- <div class="hero-carousel">
+        <div class="carousel-slide active">
+            <img src="/assets/img/irl/366717347_6659452824118040_3584427881130495636_n.jpg" alt="Nine Blades LARP Community" class="carousel-image">
+        </div>
+    </div> -->
+
 
     <!-- JavaScript -->
     <script src="/js/navbar.js"></script>
