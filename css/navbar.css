@@ -136,3 +136,26 @@
         margin-left: auto;
     }
 }
+
+/* Discord Button for Navbar */
+.discord-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: #5865F2;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.discord-button:hover {
+  background-color: #4752C4;
+}
+
+.discord-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
