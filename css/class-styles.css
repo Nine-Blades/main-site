@@ -1,0 +1,182 @@
+/* Class Guide Specific Styles */
+.class-header {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 3rem 1rem;
+    text-align: center;
+    margin-top: 60px;
+}
+
+.class-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-family: 'MedievalSharp', cursive;
+}
+
+.class-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 1rem;
+}
+
+.class-intro {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    align-items: start;
+}
+
+.class-image {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.class-stats {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode .class-stats {
+    background: #2b2b2b;
+}
+
+.class-stats h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    text-align: center;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.3rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid #eee;
+}
+
+.stat-item:last-child {
+    border-bottom: none;
+}
+
+.stat-name {
+    font-weight: bold;
+    padding-right: 15px;
+}
+
+.class-section {
+    margin-bottom: 3rem;
+}
+
+.class-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+}
+
+.class-section p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+}
+
+.abilities-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.ability-card {
+    background: white;
+    border-radius: 8px;
+    padding: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode .ability-card {
+    background: #2b2b2b;
+}
+
+.ability-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.3rem;
+    font-size: 1.3rem;
+}
+
+.ability-card p {
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+}
+
+.ability-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 1rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid #eee;
+}
+
+body.dark-mode .ability-meta {
+    color: #aaa;
+}
+
+.tips-list {
+    margin-left: 1.5rem;
+}
+
+.tips-list li {
+    margin-bottom: 0.1rem;
+}
+
+.equipment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.equipment-item {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode .equipment-item {
+    background: #2b2b2b;
+}
+
+.equipment-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.equipment-content {
+    padding: 1rem;
+}
+
+.equipment-content h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .class-intro {
+        grid-template-columns: 1fr;
+    }
+
+    .class-image {
+        margin-bottom: 1.5rem;
+        order: -1;
+    }
+}
