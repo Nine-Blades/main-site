@@ -24,20 +24,22 @@ This is a redesigned version of the nineblades.ca website for the Kingdom of the
 │       └── index.html     # Scout class guide
 ├── chapters/
 │   ├── index.html         # Main chapters directory page
-│   ├── twilight-peak/     # Toronto chapter
-│   │   └── index.html     # Twilight Peak chapter page
-│   ├── felfrost/          # Ottawa chapter
-│   │   └── index.html     # Felfrost chapter page
-│   ├── linnagond/         # Sudbury chapter
-│   │   └── index.html     # Linnagond chapter page
-│   ├── heathens-cove/     # Kingston chapter
-│   │   └── index.html     # Heathens Cove chapter page
-│   ├── lichwood-grove/    # Kitchener chapter
-│   │   └── index.html     # Lichwood Grove chapter page
 │   ├── bellhollow/        # Brantford chapter
 │   │   └── index.html     # Bellhollow chapter page
-│   └── legends-library/   # Barrie chapter
-│       └── index.html     # Legends Library chapter page
+│   ├── felfrost/          # Ottawa chapter
+│   │   └── index.html     # Felfrost chapter page
+│   ├── heathens-cove/     # Kingston chapter
+│   │   └── index.html     # Heathens Cove chapter page
+│   ├── legends-library/   # Barrie chapter
+│   │   └── index.html     # Legends Library chapter page
+│   ├── lichwood-grove/    # Kitchener chapter
+│   │   └── index.html     # Lichwood Grove chapter page
+│   ├── linnagond/         # Peterborough chapter
+│   │   └── index.html     # Linnagond chapter page
+│   ├── twilight-peak/     # Toronto chapter
+│   │   └── index.html     # Twilight Peak chapter page
+│   └── wolvenfang/        # Sudbury chapter
+│       └── index.html     # Wolvenfang Library chapter page
 └── getting-started/
     └── index.html         # Getting started guide
 ```
