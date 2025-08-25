@@ -6,7 +6,7 @@
  */
 
 // Configuration
-const ORK_API_BASE = 'https://api.amtgard.com/ork/v3';
+const ORK_API_BASE = 'https://ork.amtgard.com/orkservice/Json/index.php';
 
 const KINGDOM_ID = 31;
 
@@ -19,7 +19,7 @@ const PARK_IDS = {
     'lichwood-grove': 615, // Replace with actual ORK park ID
     'bellhollow': 609,    // Replace with actual ORK park ID
     'silva-urbem': 404,   // Replace with actual ORK park ID
-    'legends-library': 505, // Replace with actual ORK park ID
+    'legends-library': 1059, // Replace with actual ORK park ID
     'wolvenfang': 77 // Replace with actual ORK park ID
 };
 
@@ -39,7 +39,7 @@ const OFFICER_POSITIONS = {
  */
 async function fetchParkOfficers(parkId) {
     try {
-        const response = await fetch('https://ork.amtgard.com/orkservice/Json/index.php?request=&call=Park/GetOfficers&request[ParkId]=' + parkId);
+        const response = await fetch(ORK_API_BASE + '?request=&call=Park/GetOfficers&request[ParkId]=' + parkId);
         
         if (!response.ok) {
             throw new Error(`Failed to fetch officers: ${response.status}`);
@@ -60,7 +60,7 @@ async function fetchParkOfficers(parkId) {
  */
 async function fetchKingdomOfficers(kingdomId) {
     try {
-        const response = await fetch('https://ork.amtgard.com/orkservice/Json/index.php?request=&call=Kingdom/GetOfficers&request[KingdomId]=' + kingdomId);
+        const response = await fetch(ORK_API_BASE + '?request=&call=Kingdom/GetOfficers&request[KingdomId]=' + kingdomId);
         
         if (!response.ok) {
             throw new Error(`Failed to fetch officers: ${response.status}`);
