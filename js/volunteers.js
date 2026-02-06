@@ -6,9 +6,9 @@
  */
 
 // Configuration
-const ORK_API_BASE = 'https://ork.amtgard.com/orkservice/Json/index.php';
+const ORK_API_BASE_VOLUNTEERS = 'https://ork.amtgard.com/orkservice/Json/index.php';
 
-const KINGDOM_ID = 31;
+var KINGDOM_ID = 31;
 
 // Map of chapter slugs to their ORK park IDs
 const PARK_IDS = {
@@ -39,7 +39,7 @@ const OFFICER_POSITIONS = {
  */
 async function fetchParkOfficers(parkId) {
     try {
-        const response = await fetch(ORK_API_BASE + '?request=&call=Park/GetOfficers&request[ParkId]=' + parkId);
+        const response = await fetch(ORK_API_BASE_VOLUNTEERS + '?request=&call=Park/GetOfficers&request[ParkId]=' + parkId);
         
         if (!response.ok) {
             throw new Error(`Failed to fetch officers: ${response.status}`);
@@ -60,7 +60,7 @@ async function fetchParkOfficers(parkId) {
  */
 async function fetchKingdomOfficers(kingdomId) {
     try {
-        const response = await fetch(ORK_API_BASE + '?request=&call=Kingdom/GetOfficers&request[KingdomId]=' + kingdomId);
+        const response = await fetch(ORK_API_BASE_VOLUNTEERS + '?request=&call=Kingdom/GetOfficers&request[KingdomId]=' + kingdomId);
         
         if (!response.ok) {
             throw new Error(`Failed to fetch officers: ${response.status}`);
