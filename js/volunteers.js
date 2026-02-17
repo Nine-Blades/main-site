@@ -3,34 +3,9 @@
  * 
  * This script fetches officer data from the Amtgard ORK API and populates
  * the volunteer cards on chapter pages.
+ * 
+ * requires main.js
  */
-
-// Configuration
-const ORK_API_BASE_VOLUNTEERS = 'https://ork.amtgard.com/orkservice/Json/index.php';
-
-var KINGDOM_ID = 31;
-
-// Map of chapter slugs to their ORK park IDs
-const PARK_IDS = {
-    'twilight-peak': 79, // Replace with actual ORK park ID
-    'felfrost': 277,      // Replace with actual ORK park ID
-    'linnagond': 494,     // Replace with actual ORK park ID
-    'heathens-cove': 901, // Replace with actual ORK park ID
-    'lichwood-grove': 615, // Replace with actual ORK park ID
-    'bellhollow': 609,    // Replace with actual ORK park ID
-    'silva-urbem': 404,   // Replace with actual ORK park ID
-    'legends-library': 1059, // Replace with actual ORK park ID
-    'wolvenfang': 77 // Replace with actual ORK park ID
-};
-
-// Map of officer positions to their display names
-const OFFICER_POSITIONS = {
-    'Monarch': 'Monarch',
-    'Regent': 'Regent',
-    'Prime Minister': 'Prime Minister',
-    'Champion': 'Champion',
-    'GMR': 'GMR'
-};
 
 /**
  * Fetches officer data for a specific park from the ORK API
@@ -39,7 +14,7 @@ const OFFICER_POSITIONS = {
  */
 async function fetchParkOfficers(parkId) {
     try {
-        const response = await fetch(ORK_API_BASE_VOLUNTEERS + '?request=&call=Park/GetOfficers&request[ParkId]=' + parkId);
+        const response = await fetch(ORK_API_BASE + '?request=&call=Park/GetOfficers&request[ParkId]=' + parkId);
         
         if (!response.ok) {
             throw new Error(`Failed to fetch officers: ${response.status}`);
@@ -60,7 +35,7 @@ async function fetchParkOfficers(parkId) {
  */
 async function fetchKingdomOfficers(kingdomId) {
     try {
-        const response = await fetch(ORK_API_BASE_VOLUNTEERS + '?request=&call=Kingdom/GetOfficers&request[KingdomId]=' + kingdomId);
+        const response = await fetch(ORK_API_BASE + '?request=&call=Kingdom/GetOfficers&request[KingdomId]=' + kingdomId);
         
         if (!response.ok) {
             throw new Error(`Failed to fetch officers: ${response.status}`);
@@ -104,15 +79,19 @@ async function loadVolunteers() {
     const volunteersGrid = document.querySelector('.volunteers-grid');
     volunteersGrid.innerHTML = '<div class="loading">Loading Volunteer data...</div>';
     // Get the current chapter from the URL path
-    const url = window.location.href.replace(/\/$/, ''); 
+    const url = window.location.href.replace(/\/$/, '');
     const chapterSlug = url.slice(url.lastIndexOf('/') + 1);
 
     if (chapterSlug === "chapters") {
-        loadKingdomVolunteers(KINGDOM_ID);
+        loadKingdomVolunteers(KINGDOM_ID).catch((error) => {
+            volunteersGrid.innerHTML = '<div class="loading">Error loading Volunteer data</div>';
+        });
     } else {
         // Get the park ID for this chapter
         const parkId = PARK_IDS[chapterSlug];
-        loadParkVolunteers(parkId);
+        loadParkVolunteers(parkId).catch((error) => {
+            volunteersGrid.innerHTML = '<div class="loading">Error loading Volunteer data</div>';
+        });
     }
 }
 
@@ -121,8 +100,7 @@ async function loadVolunteers() {
  */
 async function loadParkVolunteers(parkId) {
     if (!parkId) {
-        console.warn(`No park ID configured for chapter: ${chapterSlug}`);
-        return;
+        throw new Error("No Park ID given");
     }
 
     // Fetch officer data
@@ -136,8 +114,7 @@ async function loadParkVolunteers(parkId) {
  */
 async function loadKingdomVolunteers(kingdomId) {
     if (!kingdomId) {
-        console.warn(`No kingdom Id configured for chapters`);
-        return;
+        throw new Error("No Kingdom ID given");
     }
 
     // Fetch officer data

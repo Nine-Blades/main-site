@@ -5,12 +5,6 @@
  * the event cards on chapter pages.
  */
 
-// Configuration
-const ORK_API_BASE = 'https://ork.amtgard.com/orkservice/Json/index.php';
-// const ORK_API_BASE = 'http://127.0.0.1:19080/orkservice/Json/index.php';
-
-var KINGDOM_ID = 31;
-
 /**
  * Fetches event data for a specific Kingdom from the ORK API
  * @param {number} kingdomId - The ORK Kingdom ID
@@ -93,7 +87,7 @@ async function loadEvents() {
     eventsGrid.innerHTML = '<div class="loading">Loading Events data...</div>';
 
     // Get the current chapter from the URL path
-    const url = window.location.href.replace(/\/$/, ''); 
+    const url = window.location.href.replace(/\/$/, '');
     const chapterSlug = url.slice(url.lastIndexOf('/') + 1);
     const currentPath = window.location.pathname;
 

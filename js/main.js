@@ -1,3 +1,30 @@
+// Configuration
+const ORK_API_BASE = 'https://ork.amtgard.com/orkservice/Json/index.php';
+
+const KINGDOM_ID = 31;
+
+// Map of chapter slugs to their ORK park IDs
+const PARK_IDS = {
+    'twilight-peak': 79, // Replace with actual ORK park ID
+    'felfrost': 277,      // Replace with actual ORK park ID
+    'linnagond': 494,     // Replace with actual ORK park ID
+    'heathens-cove': 901, // Replace with actual ORK park ID
+    'lichwood-grove': 615, // Replace with actual ORK park ID
+    'bellhollow': 609,    // Replace with actual ORK park ID
+    'silva-urbem': 404,   // Replace with actual ORK park ID
+    'legends-library': 1059, // Replace with actual ORK park ID
+    'wolvenfang': 77 // Replace with actual ORK park ID
+};
+
+// Map of officer positions to their display names
+const OFFICER_POSITIONS = {
+    'Monarch': 'Monarch',
+    'Regent': 'Regent',
+    'Prime Minister': 'Prime Minister',
+    'Champion': 'Champion',
+    'GMR': 'GMR'
+};
+
 // Theme Toggle Functionality
 function initThemeToggle() {
     const themeToggle = document.querySelector('.theme-toggle');
