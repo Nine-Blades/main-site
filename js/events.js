@@ -7,35 +7,14 @@
 
 // Configuration
 const ORK_API_BASE = 'https://ork.amtgard.com/orkservice/Json/index.php';
-// const ORK_API_BASE = 'http://localhost:19080/orkservice/Json/index.php'
+// const ORK_API_BASE = 'http://127.0.0.1:19080/orkservice/Json/index.php';
 
 var KINGDOM_ID = 31;
 
 /**
- * Fetches officer data for a specific park from the ORK API
- * @param {number} parkId - The ORK park ID
- * @returns {Promise<Object>} - Promise resolving to officer data
- */
-async function fetchParkOfficers(parkId) {
-    try {
-        const response = await fetch(ORK_API_BASE + '?request=&call=Park/GetOfficers&request[ParkId]=' + parkId);
-        
-        if (!response.ok) {
-            throw new Error(`Failed to fetch officers: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        return data.Result || [];
-    } catch (error) {
-        console.error('Error fetching officer data:', error);
-        return [];
-    }
-}
-
-/**
  * Fetches event data for a specific Kingdom from the ORK API
  * @param {number} kingdomId - The ORK Kingdom ID
- * @returns {Promise<Object>} - Promise resolving to officer data
+ * @returns {Promise<Object>} - Promise resolving to event data
  */
 async function fetchKingdomEvents(kingdomId) {
     try {
@@ -48,7 +27,28 @@ async function fetchKingdomEvents(kingdomId) {
         const data = await response.json();
         return data.Result || [];
     } catch (error) {
-        console.error('Error fetching officer data:', error);
+        console.error('Error fetching event data:', error);
+        return [];
+    }
+}
+
+/**
+ * Fetches event data for a specific Park from the ORK API
+ * @param {number} parkId - The ORK Park ID
+ * @returns {Promise<Object>} - Promise resolving to event data
+ */
+async function fetchParkEvents(parkId) {
+    try {
+        const response = await fetch(ORK_API_BASE + '?call=SearchService%2FEvent&date_order=true&name=&limit=200&park_id=' + parkId);
+        
+        if (!response.ok) {
+            throw new Error(`Failed to fetch events: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        return data.Result || [];
+    } catch (error) {
+        console.error('Error fetching event data:', error);
         return [];
     }
 }
@@ -62,7 +62,6 @@ function createEventCard(event) {
     const card = document.createElement('div');
     card.className = 'event-card';
     
-    // const volunteerName = officer.Persona ? `<a href="https://ork.amtgard.com/orkui/index.php?Route=Player/index/${officer.MundaneId}"  target="_blank">${officer.Persona}</a>` : `Vacant`;
     if (event.ParkName) {
         card.innerHTML = `
             <div class="event-header">${event.Name}</div>
@@ -92,8 +91,9 @@ async function loadEvents() {
     // Get the current chapter from the URL path
     const url = window.location.href.replace(/\/$/, ''); 
     const chapterSlug = url.slice(url.lastIndexOf('/') + 1);
+    const currentPath = window.location.pathname;
 
-    if (chapterSlug === "chapters") {
+    if (currentPath === "/" || chapterSlug === "chapters") {
         loadKingdomEvents(KINGDOM_ID);
     } else {
         // Get the park ID for this chapter
@@ -103,22 +103,7 @@ async function loadEvents() {
 }
 
 /**
- * Loads event data for the current chapter page
- */
-async function loadParkVolunteers(parkId) {
-    if (!parkId) {
-        console.warn(`No park ID configured for chapter: ${chapterSlug}`);
-        return;
-    }
-
-    // Fetch officer data
-    const officers = await fetchParkOfficers(parkId);
-
-    addOfficersToGrid(officers);
-}
-
-/**
- * Loads volunteer data for the current Kingdom
+ * Loads events data for the current Kingdom
  */
 async function loadKingdomEvents(kingdomId) {
     if (!kingdomId) {
@@ -126,14 +111,28 @@ async function loadKingdomEvents(kingdomId) {
         return;
     }
 
-    // Fetch officer data
     const events = await fetchKingdomEvents(kingdomId);
 
     addEventsToGrid(events);
 }
 
 /**
- * Given a list of officers, add them to the volunteer grid if available on the current page
+ * Loads events data for the current Park
+ */
+async function loadParkEvents(parkId) {
+    if (!parkId) {
+        console.warn(`No park Id configured for chapters`);
+        return;
+    }
+
+    // Fetch event data
+    const events = await fetchParkEvents(parkId);
+
+    addEventsToGrid(events);
+}
+
+/**
+ * Given a list of events, add them to the event grid if available on the current page
  */
 async function addEventsToGrid(events) {
     
@@ -153,14 +152,20 @@ async function addEventsToGrid(events) {
     
     // If no events found, show message
     if (!events.length) {
-        eventsGrid.innerHTML = '<div class="no-data">No event data found</div>';
+        eventsGrid.innerHTML = '<div class="no-data">No upcoming events</div>';
         return;
     }
     
     // Create and append event cards
     events.forEach(function(anEvent) {
-        const card = createEventCard(anEvent);
-        eventsGrid.appendChild(card);
+        const eventDate = new Date(anEvent.NextDate);
+        const today = new Date();
+        // Set it back one day so that we get anything within 24 hours of today
+        today.setDate(today.getDate() - 1);
+        if (eventDate >= today) {
+            const card = createEventCard(anEvent);
+            eventsGrid.appendChild(card);
+        }
     });
 }
 
