@@ -88,6 +88,10 @@ function createEventCard(event) {
  * Loads event data for the current page
  */
 async function loadEvents() {
+    // Get the volunteers container
+    const eventsGrid = document.querySelector('.events-grid');
+    eventsGrid.innerHTML = '<div class="loading">Loading Events data...</div>';
+
     // Get the current chapter from the URL path
     const url = window.location.href.replace(/\/$/, ''); 
     const chapterSlug = url.slice(url.lastIndexOf('/') + 1);
