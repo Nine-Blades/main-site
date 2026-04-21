@@ -53,9 +53,12 @@ async function fetchParkEvents(parkId) {
  * @returns {HTMLElement} - The event card element
  */
 function createEventCard(event) {
-    const card = document.createElement('div');
+    const card = document.createElement('a');
     card.className = 'event-card';
-    
+    card.href = `https://ork.amtgard.com/orkui/index.php?Route=Event/detail/${event.EventId}/${event.NextDetailId}`;
+    card.target = '_blank';
+    card.rel = 'noopener noreferrer';
+
     if (event.ParkName) {
         card.innerHTML = `
             <div class="event-header">${event.Name}</div>
@@ -74,7 +77,7 @@ function createEventCard(event) {
             </div>
         `;
     }
-    
+
     return card;
 }
 
