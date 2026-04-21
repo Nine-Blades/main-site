@@ -87,7 +87,7 @@ async function loadEvents() {
     eventsGrid.innerHTML = '<div class="loading">Loading Events data...</div>';
 
     // Get the current chapter from the URL path
-    const url = window.location.href.replace(/\/$/, '');
+    const url = window.location.pathname.replace(/\/$/, '');
     const chapterSlug = url.slice(url.lastIndexOf('/') + 1);
     const currentPath = window.location.pathname;
 

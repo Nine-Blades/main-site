@@ -79,7 +79,7 @@ async function loadVolunteers() {
     const volunteersGrid = document.querySelector('.volunteers-grid');
     volunteersGrid.innerHTML = '<div class="loading">Loading Volunteer data...</div>';
     // Get the current chapter from the URL path
-    const url = window.location.href.replace(/\/$/, '');
+    const url = window.location.pathname.replace(/\/$/, '');
     const chapterSlug = url.slice(url.lastIndexOf('/') + 1);
 
     if (chapterSlug === "chapters") {
