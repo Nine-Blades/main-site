@@ -10,6 +10,18 @@
  * @param {number} kingdomId - The ORK Kingdom ID
  * @returns {Promise<Object>} - Promise resolving to event data
  */
+function stripMarkdown(text) {
+    return text
+        .replace(/#{1,6}\s*/g, '')
+        .replace(/\*\*(.+?)\*\*/g, '$1')
+        .replace(/\*(.+?)\*/g, '$1')
+        .replace(/`(.+?)`/g, '$1')
+        .replace(/\[(.+?)\]\(.+?\)/g, '$1')
+        .replace(/^[-*_]{3,}$/gm, '')
+        .replace(/^\s*[-*+]\s+/gm, '')
+        .trim();
+}
+
 async function fetchKingdomEvents(kingdomId) {
     try {
         const response = await fetch(ORK_API_BASE + '?call=SearchService%2FEvent&date_order=true&name=&limit=200&kingdom_id=' + kingdomId);
@@ -65,7 +77,7 @@ function createEventCard(event) {
             <div class="event-content">
                 <div class="event-date">${new Date(event.NextDate).toDateString()}</div>
                 <div class="event-date">${event.ParkName}</div>
-                <div class="event-description">${event.ShortDescription}</div>
+                <div class="event-description">${stripMarkdown(event.ShortDescription)}</div>
             </div>
         `;
     } else {
@@ -73,7 +85,7 @@ function createEventCard(event) {
             <div class="event-header">${event.Name}</div>
             <div class="event-content">
                 <div class="event-date">${new Date(event.NextDate).toDateString()}</div>
-                <div class="event-description">${event.ShortDescription}</div>
+                <div class="event-description">${stripMarkdown(event.ShortDescription)}</div>
             </div>
         `;
     }
