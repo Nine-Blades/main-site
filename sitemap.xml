@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://nineblades.ca/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://nineblades.ca/about</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://nineblades.ca/chapters</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://nineblades.ca/getting-started</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://nineblades.ca/guides</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://nineblades.ca/guides/archer</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://nineblades.ca/guides/scout</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://nineblades.ca/events</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://nineblades.ca/chapters/bellhollow</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://nineblades.ca/chapters/felfrost</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://nineblades.ca/chapters/heathens-cove</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://nineblades.ca/chapters/legends-library</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://nineblades.ca/chapters/lichwood-grove</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://nineblades.ca/chapters/linnagond</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://nineblades.ca/chapters/wolvenfang</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+</urlset>

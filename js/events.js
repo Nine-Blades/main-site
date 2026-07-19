@@ -104,14 +104,14 @@ async function loadEvents() {
     // Get the current chapter from the URL path
     const url = window.location.pathname.replace(/\/$/, '');
     const chapterSlug = url.slice(url.lastIndexOf('/') + 1);
-    const currentPath = window.location.pathname;
 
-    if (currentPath === "/" || chapterSlug === "chapters") {
-        loadKingdomEvents(KINGDOM_ID);
-    } else {
-        // Get the park ID for this chapter
-        const parkId = PARK_IDS[chapterSlug];
+    // Load park events on a chapter page; otherwise fall back to kingdom events
+    // (home, chapters index, /index.html, or file:// filesystem paths).
+    const parkId = PARK_IDS[chapterSlug];
+    if (parkId) {
         loadParkEvents(parkId);
+    } else {
+        loadKingdomEvents(KINGDOM_ID);
     }
 }
 

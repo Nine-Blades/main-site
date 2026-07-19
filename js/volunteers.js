@@ -82,14 +82,15 @@ async function loadVolunteers() {
     const url = window.location.pathname.replace(/\/$/, '');
     const chapterSlug = url.slice(url.lastIndexOf('/') + 1);
 
-    if (chapterSlug === "chapters") {
-        loadKingdomVolunteers(KINGDOM_ID).catch((error) => {
+    // Load park officers on a chapter page; otherwise fall back to kingdom
+    // officers (chapters index, /index.html, or file:// filesystem paths).
+    const parkId = PARK_IDS[chapterSlug];
+    if (parkId) {
+        loadParkVolunteers(parkId).catch((error) => {
             volunteersGrid.innerHTML = '<div class="loading">Error loading Volunteer data</div>';
         });
     } else {
-        // Get the park ID for this chapter
-        const parkId = PARK_IDS[chapterSlug];
-        loadParkVolunteers(parkId).catch((error) => {
+        loadKingdomVolunteers(KINGDOM_ID).catch((error) => {
             volunteersGrid.innerHTML = '<div class="loading">Error loading Volunteer data</div>';
         });
     }
