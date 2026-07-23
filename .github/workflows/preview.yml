@@ -1,0 +1,95 @@
+name: PR Preview
+
+# Publishes a live preview of a pull request to GitHub Pages so reviewers and
+# translators can see rendered changes without installing anything.
+#
+# This is completely separate from production: it triggers ONLY on pull
+# requests and pushes ONLY to the gh-pages branch. Your main -> DigitalOcean
+# deploy watches `main` and never sees any of this.
+#
+# Because the site references assets from the web root (/css, /js, …) and its
+# language routing reads the URL path, the preview must be served at a domain
+# ROOT, not a subpath. That means one preview URL (preview.nineblades.ca) that
+# always reflects the most recently updated PR — see the notes at the bottom.
+#
+# One-time setup (see the repo's PREVIEW docs / the PR that added this file):
+#   1. Add a DNS record:  CNAME  preview  ->  <owner>.github.io
+#   2. Settings → Pages → Build and deployment → Source: "Deploy from a branch",
+#      Branch: gh-pages / root. Set the custom domain to preview.nineblades.ca.
+
+on:
+  pull_request:
+    # `closed` is handled by the reset job below so a stale preview of a merged
+    # or abandoned PR doesn't linger.
+    types: [opened, synchronize, reopened, closed]
+
+# Serialize deploys so two PRs updating at once can't race to publish.
+concurrency:
+  group: pr-preview
+  cancel-in-progress: false
+
+permissions:
+  contents: write        # push to gh-pages
+  pull-requests: write   # post the sticky preview comment
+
+jobs:
+  deploy:
+    # Fork PRs get a read-only token and can't publish; skip them cleanly.
+    # (Your contributors push branches to this repo, so their PRs do publish.)
+    if: >-
+      github.event.action != 'closed' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the PR's code
+        uses: actions/checkout@v4
+
+      - name: Publish to the preview site
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
+          publish_branch: gh-pages
+          # Re-written on every deploy so the custom domain sticks.
+          cname: preview.nineblades.ca
+          # Keep gh-pages a single throwaway commit — no history bloat.
+          force_orphan: true
+          exclude_assets: '.github,README.md,.gitignore'
+
+      - name: Post / update the preview link on the PR
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: pr-preview
+          message: |
+            ### 🔎 Live preview
+
+            **https://preview.nineblades.ca**
+
+            Updated from `${{ github.event.pull_request.head.sha }}`.
+
+            The preview refreshes on every push to this branch — give the
+            build ~30–60s to finish, then reload the page. There's a single
+            preview URL shared by everyone on this PR, so it always shows the
+            **latest push**; if a teammate pushed after you, push again (or
+            wait for their build) to see your version.
+
+  # When a PR closes, point the preview back at whatever's on main so it never
+  # shows the content of a closed PR.
+  reset:
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Reset preview to main
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
+          publish_branch: gh-pages
+          cname: preview.nineblades.ca
+          force_orphan: true
+          exclude_assets: '.github,README.md,.gitignore'
