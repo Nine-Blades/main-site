@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<!--
+    ============================================================
+    FRENCH PAGE — ENGLISH PLACEHOLDER
+    ============================================================
+    This page exists so the French site is browsable now. Until it's
+    translated, visitors see the English text with a banner across the
+    top saying it isn't translated yet (added automatically by
+    js/navbar.js — nothing to add here).
+
+    Translate every visible string — title, meta description, headings,
+    paragraphs, alt text, link/button labels — into French, in place.
+
+    To finish this page:
+      1. Change <html lang="en"> to <html lang="fr"> below.
+      2. If there is a JSON-LD block, add "inLanguage": "fr" to it.
+      3. Uncomment the <link rel="alternate" hreflang…> tags below, and
+         add the matching pair to the English page at /about/ .
+      4. Add <loc>https://nineblades.ca/fr/about/</loc> to sitemap.xml.
+      5. Add '/about/' to TRANSLATED_PATHS in js/main.js. This removes the
+         "not translated" banner from this page — do it last.
+
+    Do NOT translate: menu / officer titles fed from the ORK (handled in
+    js/main.js) or proper names (Nine Blades, chapter names).
+    ============================================================
+-->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon.ico">
+    <title>About Amtgard - Kingdom of the Nine Blades</title>
+    <meta name="description" content="Learn about Amtgard LARP and the Kingdom of the Nine Blades community in Canada.">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Roboto:wght@400;700&display=swap"
+        rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BWQRL0R2B9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-BWQRL0R2B9');
+    </script>
+    <style>
+        /* About Page Specific Styles */
+        .about-header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 3rem 1rem;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .about-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-family: 'MedievalSharp', cursive;
+        }
+
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+
+        .about-section {
+            margin-bottom: 4rem;
+        }
+
+        .about-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .about-image {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-text p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .about-text ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-text li {
+            margin-bottom: 0.5rem;
+        }
+
+        .about-cta {
+            background: var(--primary-color);
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .about-cta h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: var(--primary-color);
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: var(--transition);
+        }
+
+        .cta-button:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: #a31616;
+        }
+
+        .social-icon {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-image {
+                margin-bottom: 1.5rem;
+            }
+        }
+    </style>
+    <!-- Favicon -->
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <!-- Navbar is loaded dynamically via JavaScript -->
+
+    <!-- About Header -->
+    <header class="about-header">
+        <h1>About Amtgard & Nine Blades</h1>
+        <p>Discover the medieval fantasy world of Amtgard and our Canadian community</p>
+        <a href="mailto:outreach@nineblades.ca?subject=Info About the Kingdom of the Nine Blades Amtgard" style="color: var(--text-light); margin-top: 0.5rem; display: inline-flex; align-items: center; gap: 0.4rem; text-decoration: none;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            outreach@nineblades.ca
+        </a>
+    </header>
+
+    <!-- About Content -->
+    <div class="about-container">
+        <!-- What is Amtgard -->
+        <section class="about-section">
+            <h2>What is Amtgard?</h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>Amtgard is a medieval fantasy combat sport and LARP (Live Action Role-Playing game) where
+                        participants physically portray their characters and engage in combat using foam-padded weapons.
+                    </p>
+                    <p>Founded in 1983, Amtgard has grown to become one of the largest LARP organizations in North
+                        America with thousands of active players across more than 330 active Chapters (called "parks").
+                    </p>
+                    <p>Unlike many theatrical LARPs, Amtgard focuses on:</p>
+                    <ul>
+                        <li>Safe, competitive combat with foam weapons</li>
+                        <li>Medieval/fantasy roleplay and character development</li>
+                        <li>Arts and sciences (crafting, garb making, etc.)</li>
+                        <li>Service to the community and organization</li>
+                    </ul>
+                    <div class="social-links">
+                        <a href="https://www.amtgard.com" target="_blank" class="social-link">
+                            Website
+                        </a>
+                        <a href="https://www.facebook.com/AmtgardInternational/" target="_blank" class="social-link">
+                            Facebook
+                        </a>
+                        <a href="https://ork.amtgard.com/orkui/" target="_blank" class="social-link">
+                            ORK
+                        </a>
+                        <a href="https://wiki.amtgard.com/Main_Page" target="_blank" class="social-link">
+                            AmtWiki
+                        </a>
+                        <a href="https://discord.gg/bHAXaEzw" target="_blank" class="social-link">
+                            Discord
+                        </a>
+                    </div>
+
+                </div>
+                <img src="/assets/img/irl/AmtgardMap.png" alt="Amtgard Map" class="about-image">
+
+                <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/QGENbkToHAc?si=xi-vVMqFHFPRExyq" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> -->
+
+            </div>
+        </section>
+
+        <!-- Kingdom of the Nine Blades -->
+        <section class="about-section">
+            <h2>The Kingdom of the Nine Blades</h2>
+            <div class="about-grid">
+                <img src="/assets/img/heraldry/9B_BANNER.png" alt="Nine Blades Banner" class="about-image">
+                <div class="about-text">
+                    <p>The Nine Blades was recognized as Kingdom of Amtgard in July, 2020.</p>
+                    <p>Our Kingdom has grown to include 8 active parks and hundreds of players who gather regularly for:
+                    </p>
+                    <ul>
+                        <li>Weekly park days with combat, games, and socializing</li>
+                        <li>Larger weekend events with camping, tournaments, and feasts</li>
+                        <li>Kingdom-level gatherings where all Chapters come together</li>
+                        <li>Arts and sciences competitions and workshops</li>
+                    </ul>
+                    <p>Our community is welcoming to players of all backgrounds, ages (14+), and experience levels.
+                        Whether you're interested in combat, roleplay, crafting, or just making new friends, there's a
+                        place for you in the Nine Blades.</p>
+                    <div class="social-links">
+                        <a href="https://discord.gg/MaffCnb" target="_blank" class="social-link">
+                            Kingdom Discord
+                        </a>
+                        <a href="https://www.facebook.com/groups/kingdomofthenineblades/" target="_blank"
+                            class="social-link">
+                            Facebook
+                        </a>
+                        <a href="https://ork.amtgard.com/orkui/index.php?Route=Kingdom/index/31" target="_blank"
+                            class="social-link">
+                            Kingdom ORK
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- How to Play -->
+        <section class="about-section">
+            <h2>How to Play</h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>Getting started with Amtgard is easy! Here's what you need to know:</p>
+                    <ul>
+                        <li><strong>Equipment:</strong> For your first visit, you don't need any special equipment. We
+                            have loaner weapons and gear for newcomers.</li>
+                        <li><strong>Classes:</strong> Players can choose from various character classes like Warrior,
+                            Healer, Wizard, Scout, Assassin, and more, each with unique abilities.</li>
+                        <li><strong>Combat:</strong> Our combat system uses foam-padded weapons and is based on a
+                            hit-location system. It's safe, active, and exciting!</li>
+                        <li><strong>Garb:</strong> Medieval or fantasy clothing is encouraged but not required for your
+                            first few visits.</li>
+                        <li><strong>Cost:</strong> Amtgard is free to try! There are no mandatory fees to participate in
+                            weekly park days. You can pay $10 for each six (6) month period in order to be able to become a citizen.</li>
+                    </ul>
+                    <p>The best way to learn is to show up at one of our park days. Our experienced players will guide
+                        you through your first day and help you get started.</p>
+                    <div class="social-links">
+                        <a href="https://www.amtgard.com/documents" target="_blank" class="social-link">
+                            Rulebook site
+                        </a>
+                    </div>
+                </div>
+                <img src="/assets/img/irl/309453185_446920394217753_181098635881736886_n.jpg" alt="Amtgard Classes"
+                    class="about-image">
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <div class="about-cta">
+            <h3>Ready to Join the Adventure?</h3>
+            <p>Find a Chapter near you and start your journey into the world of Amtgard!</p>
+            <a href="/getting-started" class="cta-button">Get Started Now</a>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="/js/navbar.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+
+</html>

@@ -75,7 +75,7 @@ function createEventCard(event) {
         card.innerHTML = `
             <div class="event-header">${event.Name}</div>
             <div class="event-content">
-                <div class="event-date">${new Date(event.NextDate).toDateString()}</div>
+                <div class="event-date">${formatDate(event.NextDate)}</div>
                 <div class="event-date">${event.ParkName}</div>
                 <div class="event-description">${stripMarkdown(event.ShortDescription)}</div>
             </div>
@@ -84,7 +84,7 @@ function createEventCard(event) {
         card.innerHTML = `
             <div class="event-header">${event.Name}</div>
             <div class="event-content">
-                <div class="event-date">${new Date(event.NextDate).toDateString()}</div>
+                <div class="event-date">${formatDate(event.NextDate)}</div>
                 <div class="event-description">${stripMarkdown(event.ShortDescription)}</div>
             </div>
         `;
@@ -99,7 +99,7 @@ function createEventCard(event) {
 async function loadEvents() {
     // Get the volunteers container
     const eventsGrid = document.querySelector('.events-grid');
-    eventsGrid.innerHTML = '<div class="loading">Loading Events data...</div>';
+    eventsGrid.innerHTML = `<div class="loading">${t('eventsLoading')}</div>`;
 
     // Get the current chapter from the URL path
     const url = window.location.pathname.replace(/\/$/, '');
@@ -158,14 +158,14 @@ async function addEventsToGrid(events) {
     }
     
     // Show loading state
-    eventsGrid.innerHTML = '<div class="loading">Loading event data...</div>';
+    eventsGrid.innerHTML = `<div class="loading">${t('eventsLoading')}</div>`;
         
     // Clear loading state
     eventsGrid.innerHTML = '';
     
     // If no events found, show message
     if (!events.length) {
-        eventsGrid.innerHTML = '<div class="no-data">No upcoming events</div>';
+        eventsGrid.innerHTML = `<div class="no-data">${t('eventsNone')}</div>`;
         return;
     }
     

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<!--
+    ============================================================
+    FRENCH PAGE — ENGLISH PLACEHOLDER
+    ============================================================
+    This page exists so the French site is browsable now. Until it's
+    translated, visitors see the English text with a banner across the
+    top saying it isn't translated yet (added automatically by
+    js/navbar.js — nothing to add here).
+
+    Translate every visible string — title, meta description, headings,
+    paragraphs, alt text, link/button labels — into French, in place.
+
+    To finish this page:
+      1. Change <html lang="en"> to <html lang="fr"> below.
+      2. If there is a JSON-LD block, add "inLanguage": "fr" to it.
+      3. Uncomment the <link rel="alternate" hreflang…> tags below, and
+         add the matching pair to the English page at /events/ .
+      4. Add <loc>https://nineblades.ca/fr/events/</loc> to sitemap.xml.
+      5. Add '/events/' to TRANSLATED_PATHS in js/main.js. This removes the
+         "not translated" banner from this page — do it last.
+
+    Do NOT translate: menu / officer titles fed from the ORK (handled in
+    js/main.js) or proper names (Nine Blades, chapter names).
+    ============================================================
+-->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon.ico">
+    <title>Events in the Nine Blades</title>
+    <meta name="description" content="Find information about Nine Blades biggest events">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Roboto:wght@400;700&display=swap"
+        rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BWQRL0R2B9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-BWQRL0R2B9');
+    </script>
+    <style>
+        /* Event Page Specific Styles */
+        .event-header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 3rem 1rem;
+            text-align: center;
+            margin-top: 60px;
+        }
+        .event-anchor {
+            scroll-margin-top: 80px;
+        }
+
+        .event-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-family: 'MedievalSharp', cursive;
+        }
+
+        .event-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+
+        .event-section {
+            margin-bottom: 4rem;
+        }
+
+        .event-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .event-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .event-image {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-text p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .event-text ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .event-text li {
+            margin-bottom: 0.5rem;
+        }
+
+        .event-cta {
+            background: var(--primary-color);
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .event-cta h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: var(--primary-color);
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: var(--transition);
+        }
+
+        .cta-button:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: #a31616;
+        }
+
+        .social-icon {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .event-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .event-image {
+                margin-bottom: 1.5rem;
+            }
+        }
+    </style>
+    <!-- Favicon -->
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <!-- Navbar is loaded dynamically via JavaScript -->
+
+    <!-- Events Header -->
+    <header class="event-header">
+        <h1>Nine Blades Events</h1>
+        <p>What exciting events does the Nine Blades have every year?</p>
+        <p>This list is being worked on and is not complete...</p>
+    </header>
+
+    <!-- Events Content -->
+    <div class="event-container">
+        <!-- Frostbite -->
+        <section class="event-section">
+            <!-- can be referenced with https://nineblades.ca/events#frostbite-->
+            <h2 class="event-anchor"id='frostbite'>Frostbite</h2>
+            <div class="event-grid">
+                <div class="event-text">
+                    <p>Frostbite is a winter-themed, weekend-long event held in <a href="/chapters/wolvenfang/">Wolvenfang</a> early in the year</p>
+                    <p>There are battlegames, quests, tournaments, and maybe even some crafting!</p>
+                    <p>It's held over a weekend and traditionally a Saturday night feast is provided with the fee.</p>
+                    <p>This event aims to be indoors and outside, so bring your winter garb!</p>
+                </div>
+                <img src="/assets/img/irl/Frostbite2025.jpg" alt="Frostbite Battlegame" class="event-image">
+
+                <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/QGENbkToHAc?si=xi-vVMqFHFPRExyq" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> -->
+
+            </div>
+        </section>
+
+        <!-- Ironclad Event -->
+        <section class="event-section">
+            <h2 class="event-anchor"id='ironclad'>Ironclad</h2>
+            <div class="event-grid">
+                <img src="/assets/img/irl/ironclad_fight.jpg" alt="Ironclad fight"
+                    class="event-image">
+                <div class="event-text">
+                    <p>Ironclad is a tournament event in April or May started in 2020 in which the main draw is a bearpit-style event.
+                        The winner of the tournament overall will receive the Ironclad headband, and be allowed to wear it until the next Ironclad event.
+                        However to encourage everyone to try out, and the parks to each have something to be proud of, the best scoring member of 
+                        each park will also receive a park specific headband.  There are also many non-combat activities to partake in.</p>
+                    <p>After the tournament, during or before Court, a feast of Roman scale is provided to all attendees</p>
+                    <div class="social-links">
+                        <a href="https://docs.google.com/presentation/d/1ZuhxdH3nMEZayNqOTJvogw7p9vb4o0k4swTGkknUJCQ/edit?fbclid=IwY2xjawQBWPJleHRuA2FlbQIxMQBzcnRjBmFwcF9pZBAyMjIwMzkxNzg4MjAwODkyAAEeYwy0AGK19YrO34Cwko4p5D97HzEAImmZtcyBGG7gNmYV1MtvZJuOmxtlVyQ_aem_nHAi8G8tL0YcH_jT8Opp7g&slide=id.g337c4d11e01_1_8#slide=id.g337c4d11e01_1_8" target="_blank" target="_blank" class="social-link">
+                            2025 Ironclad Tournament Rules
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Battle of the Dens -->
+        <section class="event-section">
+            <!-- can be referenced with https://nineblades.ca/events#botd -->
+            <h2 class="event-anchor"id='botd'>Battle of the Dens (BotD)</h2>
+            <div class="event-grid">
+                <div class="event-text">
+                    <p>Battle of the Dens is the longest running Amtgard event in Canada and is a Wolvenfang and Kingdom Summer Coronation event. A camping event
+                        just outside of Sudbury, Ontario, typically over the Canadian long weekend at the beginning of August.</p>
+                        <p>The day long Capture the Flag game held in the wooded area often sees capture points, hold points, and nirvana
+                            locations throughout. Two team captains fight for the right to be declared winner!</p>
+                        </p>
+                        <p>But there's much more than just the CTF, there are Battlegames, a massive Company Battle, colourful bardics, shinanigans around
+                            the campfire, and a feast/court/awards night.
+                        </p>
+                        <p>This event pulls in between 150 and 200 participants from across The Nine Blades, other Canadian parks, 
+                            and travellers from the United States.
+                        </p>
+                </div>
+                <img src="/assets/img/irl/botd2025_arrow_tower.jpg" alt="Battle of the Dens Arror Tower" class="event-image">
+            </div>
+        </section>
+
+    </div>
+
+    <!-- JavaScript -->
+    <script src="/js/navbar.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+
+</html>

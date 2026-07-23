@@ -58,9 +58,9 @@ function createVolunteerCard(officer) {
     const card = document.createElement('div');
     card.className = 'volunteer-card';
     
-    const position = OFFICER_POSITIONS[officer.OfficerRole] || officer.OfficerRole;
+    const position = officerTitle(officer.OfficerRole);
 
-    const volunteerName = officer.Persona ? `<a href="https://ork.amtgard.com/orkui/index.php?Route=Player/index/${officer.MundaneId}"  target="_blank">${officer.Persona}</a>` : `Vacant`;
+    const volunteerName = officer.Persona ? `<a href="https://ork.amtgard.com/orkui/index.php?Route=Player/index/${officer.MundaneId}"  target="_blank">${officer.Persona}</a>` : t('vacant');
     card.innerHTML = `
         <div class="volunteer-header">${position}</div>
         <div class="volunteer-content">
@@ -77,7 +77,7 @@ function createVolunteerCard(officer) {
 async function loadVolunteers() {
     // Show loading state
     const volunteersGrid = document.querySelector('.volunteers-grid');
-    volunteersGrid.innerHTML = '<div class="loading">Loading Volunteer data...</div>';
+    volunteersGrid.innerHTML = `<div class="loading">${t('volunteersLoading')}</div>`;
     // Get the current chapter from the URL path
     const url = window.location.pathname.replace(/\/$/, '');
     const chapterSlug = url.slice(url.lastIndexOf('/') + 1);
@@ -87,11 +87,11 @@ async function loadVolunteers() {
     const parkId = PARK_IDS[chapterSlug];
     if (parkId) {
         loadParkVolunteers(parkId).catch((error) => {
-            volunteersGrid.innerHTML = '<div class="loading">Error loading Volunteer data</div>';
+            volunteersGrid.innerHTML = `<div class="loading">${t('volunteersError')}</div>`;
         });
     } else {
         loadKingdomVolunteers(KINGDOM_ID).catch((error) => {
-            volunteersGrid.innerHTML = '<div class="loading">Error loading Volunteer data</div>';
+            volunteersGrid.innerHTML = `<div class="loading">${t('volunteersError')}</div>`;
         });
     }
 }
@@ -138,20 +138,20 @@ async function addOfficersToGrid(officers) {
     }
     
     // Show loading state
-    volunteersGrid.innerHTML = '<div class="loading">Loading volunteer data...</div>';
+    volunteersGrid.innerHTML = `<div class="loading">${t('volunteersLoading')}</div>`;
         
     // Clear loading state
     volunteersGrid.innerHTML = '';
     
     // If no officers found, show message
     if (!officers.length) {
-        volunteersGrid.innerHTML = '<div class="no-data">No volunteer data available</div>';
+        volunteersGrid.innerHTML = `<div class="no-data">${t('volunteersNone')}</div>`;
         return;
     }
     
     // Create and append volunteer cards
-    for (const position of Object.keys(OFFICER_POSITIONS)) {
-        const officer = officers.find(o => o.OfficerRole === OFFICER_POSITIONS[position]) || { position };
+    for (const role of OFFICER_ROLES) {
+        const officer = officers.find(o => o.OfficerRole === role) || { OfficerRole: role };
         const card = createVolunteerCard(officer);
         volunteersGrid.appendChild(card);
     }

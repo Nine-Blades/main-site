@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<!--
+    ============================================================
+    FRENCH PAGE — ENGLISH PLACEHOLDER
+    ============================================================
+    This page exists so the French site is browsable now. Until it's
+    translated, visitors see the English text with a banner across the
+    top saying it isn't translated yet (added automatically by
+    js/navbar.js — nothing to add here).
+
+    Translate every visible string — title, meta description, headings,
+    paragraphs, alt text, link/button labels — into French, in place.
+
+    To finish this page:
+      1. Change <html lang="en"> to <html lang="fr"> below.
+      2. If there is a JSON-LD block, add "inLanguage": "fr" to it.
+      3. Uncomment the <link rel="alternate" hreflang…> tags below, and
+         add the matching pair to the English page at / .
+      4. Add <loc>https://nineblades.ca/fr/</loc> to sitemap.xml.
+      5. Add '/' to TRANSLATED_PATHS in js/main.js. This removes the
+         "not translated" banner from this page — do it last.
+
+    Do NOT translate: menu / officer titles fed from the ORK (handled in
+    js/main.js) or proper names (Nine Blades, chapter names).
+    ============================================================
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon.ico">
+    <title>Kingdom of the Nine Blades – Amtgard LARP in Ontario &amp; Quebec</title>
+    <meta name="description" content="The Kingdom of the Nine Blades is an Amtgard LARP community in Ontario and Quebec, Canada. Join us for medieval boffer combat, roleplay, and more. Free to try!">
+    <link rel="canonical" href="https://nineblades.ca/fr/">
+    <!-- Uncomment when this page is translated (see banner above):
+    <link rel="alternate" hreflang="en" href="https://nineblades.ca/">
+    <link rel="alternate" hreflang="fr" href="https://nineblades.ca/fr/">
+    <link rel="alternate" hreflang="x-default" href="https://nineblades.ca/">
+    -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Kingdom of the Nine Blades",
+      "alternateName": "Nine Blades",
+      "url": "https://nineblades.ca",
+      "logo": "https://nineblades.ca/assets/img/heraldry/9BHeraldryBlack_Border-600x600.png",
+      "description": "Amtgard LARP and medieval combat community in Ontario and Quebec, Canada.",
+      "areaServed": [
+        { "@type": "State", "name": "Ontario" },
+        { "@type": "State", "name": "Quebec" }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/groups/kingdomofthenineblades/",
+        "https://wiki.amtgard.com/Nine_Blades",
+        "https://ork.amtgard.com/orkui/index.php?Route=Kingdom/profile/31"
+      ]
+    }
+    </script>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/chapters-page.css">
+    <link rel="stylesheet" href="/css/volunteers.css">
+    <link rel="stylesheet" href="/css/events.css">
+    <link rel="stylesheet" href="/css/guides.css">
+    <!-- Favicon -->
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BWQRL0R2B9"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-BWQRL0R2B9');
+    </script>
+    <style>
+                /* About Page Specific Styles */
+        .about-header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 3rem 1rem;
+            text-align: center;
+            margin-top: 60px;
+        }
+        
+        .about-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-family: 'MedievalSharp', cursive;
+        }
+        
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+        
+        .about-section {
+            margin-bottom: 4rem;
+        }
+        
+        .about-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .about-image {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .about-text p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        .about-text ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .about-text li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .about-cta {
+            background: var(--primary-color);
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .about-cta h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Navbar is loaded dynamically via JavaScript -->
+    <!-- About Header -->
+    <header class="about-header">
+        <h1>Kingdom of the Nine Blades: Amtgard LARP in Ontario &amp; Quebec</h1>
+        <p>A Canadian Kingdom of Amtgard in Ontario and Quebec, Canada</p>
+        <a href="mailto:outreach@nineblades.ca?subject=Info About the Kingdom of the Nine Blades Amtgard" style="color: var(--text-light); margin-top: 0.5rem; display: inline-flex; align-items: center; gap: 0.4rem; text-decoration: none;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            outreach@nineblades.ca
+        </a>
+    </header>
+    <!-- Guides Section -->
+    <section class="guides-section">
+        <div class="guides-grid">
+            <div class="guide-card">
+                <img src="/assets/img/irl/298062219_10218838246102325_4163782882865631337_n.jpg" alt="About Amtgard" class="guide-image">
+                <div class="guide-content">
+                    <h3 class="guide-title">What is Amtgard?</h3>
+                    <p>Amtgard is a Live Action Roleplaying (LARP) and boffer combat sport. How do we differ from the LARPs you've seen on TV? In this guide, we'll explain everything you need to know!</p>
+                    <a href="/about" class="guide-button">Learn More</a>
+                </div>
+            </div>
+
+            <div class="guide-card">
+                <img src="/assets/img/irl/337275383_176989995193823_6924363000846363724_n.jpg" alt="Chapters" class="guide-image">
+                <div class="guide-content">
+                    <h3 class="guide-title">Find a Chapter Near You</h3>
+                    <p>Discover Amtgard Chapters across Ontario and Quebec. Find meeting times, locations, and connect with your local community to start your adventure!</p>
+                    <a href="/chapters" class="guide-button">Find Chapters</a>
+                </div>
+            </div>
+
+            <div class="guide-card">
+                <img src="/assets/img/irl/IMG_0878-1.jpg" alt="Getting Started" class="guide-image">
+                <div class="guide-content">
+                    <h3 class="guide-title">Getting Started!</h3>
+                    <p>Get started quickly with our Rulebook, Waiver, and helpful guides and tutorials to make your first set of equipment! Then, pick your City!</p>
+                    <a href="/getting-started" class="guide-button">Start Now</a>
+                </div>
+            </div>
+
+            <div class="guide-card">
+                <img src="/assets/img/irl/BotD2025-Image1.jpg" alt="Guides" class="guide-image">
+                <div class="guide-content">
+                    <h3 class="guide-title">Guides and Player Information</h3>
+                    <p>Here you will find our Amtgard Basics guide, as well as Class Guides, Titles Guide, Volunteer and Chapter Officer Guides, and more!</p>
+                    <a href="/guides" class="guide-button">View Guides</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Events Section -->
+    <section class="guides-section">
+        <h2 class="section-title">Kingdom Events</h2>
+        
+        <div class="events-grid">
+            <!-- Event cards will be dynamically loaded via events.js -->
+        </div>
+    </section>
+
+    <!-- Hero Carousel -->
+    <!-- <div class="hero-carousel">
+        <div class="carousel-slide active">
+            <img src="/assets/img/irl/366717347_6659452824118040_3584427881130495636_n.jpg" alt="Nine Blades LARP Community" class="carousel-image">
+        </div>
+    </div> -->
+
+
+    <!-- JavaScript -->
+    <script src="/js/navbar.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/events.js"></script>
+</body>
+</html>

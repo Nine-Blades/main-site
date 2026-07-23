@@ -85,6 +85,55 @@
     width: 100%;
 }
 
+/* Language switcher — reads as a nav link, but boxed so it's clearly a
+   control rather than another destination. */
+.lang-switch {
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 4px;
+    padding: 0.3rem 0.6rem;
+    font-size: 1rem;
+}
+
+.lang-switch:hover {
+    border-color: var(--text-light);
+}
+
+/* The underline sweep on .nav-link would sit on top of the border. */
+.lang-switch::after {
+    content: none;
+}
+
+/* "This page isn't translated yet" banner, injected by navbar.js on
+   placeholder French pages. Sits just below the fixed navbar. */
+.translation-notice {
+    margin-top: 60px;
+    background: #f4e3b2;
+    color: #3a2f10;
+    border-bottom: 3px solid var(--primary-color);
+    padding: 0.7rem 1rem;
+    text-align: center;
+    line-height: 1.45;
+}
+
+.translation-notice-primary {
+    display: block;
+    font-weight: 700;
+}
+
+.translation-notice-secondary {
+    display: block;
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.translation-notice a {
+    display: inline-block;
+    margin-top: 0.25rem;
+    color: var(--primary-color);
+    font-weight: 700;
+    text-decoration: underline;
+}
+
 .mobile-menu-btn {
     display: none;
     background: none;
