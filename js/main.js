@@ -13,6 +13,7 @@ const PARK_IDS = {
     'bellhollow': 609,    // Replace with actual ORK park ID
     'silva-urbem': 404,   // Replace with actual ORK park ID
     'legends-library': 1059, // Replace with actual ORK park ID
+    'grandes-fourches': 1093, // Replace with actual ORK park ID
     'wolvenfang': 77 // Replace with actual ORK park ID
 };
 
