@@ -1,32 +1,34 @@
 // One-off diagnostic: can a GitHub Actions runner fetch the Amtgard ORK events
-// endpoint (the same one js/events.js uses), or does Cloudflare challenge it?
+// endpoint, and does the Cloudflare bypass header let it through?
 //
-// Exit 0  = reachable from CI, got JSON  -> the simple plain-fetch plan works.
-// Exit 1  = Cloudflare challenge / no JSON -> needs an ORK-side allowlist or a
-//           headless browser (Playwright) in the Action.
+// It runs a baseline request (no header — expected to be Cloudflare-blocked),
+// and, if ORK_BUILD_KEY is set, a second request carrying the token in the
+// `x-nb-build` header (expected to return JSON once the CF skip rule is live).
 //
-// Reads only, writes nothing. Safe to delete (with its workflow) after use.
+// The CF rule this matches:
+//   Hostname eq ork.amtgard.com AND URI Path starts_with /orkservice/
+//   AND Header x-nb-build eq <token>   -> skip challenge
+//
+// Exit 0 = got JSON. Exit 1 = still blocked. Reads only; delete after use.
 
 const ENDPOINT =
   'https://ork.amtgard.com/orkservice/Json/index.php' +
   '?call=SearchService%2FEvent&date_order=true&name=&limit=200&kingdom_id=31';
 
-// Try a naive fetch first, then one dressed up to look like the browser call in
-// js/events.js — to learn whether headers alone are enough to get past the edge.
+const HEADER = 'x-nb-build';
+const KEY = process.env.ORK_BUILD_KEY || '';
+
 const attempts = [
-  { label: 'plain fetch (naive Node)', headers: {} },
-  {
-    label: 'browser-like headers',
-    headers: {
-      'User-Agent':
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' +
-        '(KHTML, like Gecko) Chrome/126.0 Safari/537.36',
-      Accept: 'application/json, text/plain, */*',
-      'Accept-Language': 'en-CA,en;q=0.9',
-      Referer: 'https://nineblades.ca/',
-    },
-  },
+  { label: 'baseline, no header (expect Cloudflare block)', headers: {} },
 ];
+if (KEY) {
+  attempts.push({
+    label: 'with x-nb-build header (expect JSON if the CF rule is live)',
+    headers: { [HEADER]: KEY },
+  });
+} else {
+  console.log('NOTE: ORK_BUILD_KEY is not set — running only the baseline request.');
+}
 
 function looksLikeChallenge(body, contentType) {
   return (
@@ -52,11 +54,9 @@ for (const attempt of attempts) {
       (cfRay ? ` | cf-ray: ${cfRay}` : ''));
 
     if (looksLikeChallenge(body, contentType)) {
-      console.log('RESULT: Cloudflare challenge — no JSON. First 160 chars:');
-      console.log('  ' + body.slice(0, 160).replace(/\s+/g, ' '));
+      console.log('RESULT: Cloudflare challenge — no JSON.');
       continue;
     }
-
     try {
       const data = JSON.parse(body);
       const events = data.Result || [];
@@ -74,10 +74,14 @@ for (const attempt of attempts) {
 
 console.log('\n==================================================');
 if (reachable) {
-  console.log('VERDICT: ✅ ORK is reachable from CI. The plain Node-fetch plan works.');
+  console.log('VERDICT: ✅ ORK reachable from CI. The plain-fetch + header plan works.');
+} else if (KEY) {
+  console.log('VERDICT: ❌ Still blocked with the header. Check the CF rule:');
+  console.log('         - header name is exactly x-nb-build and value equals the token');
+  console.log('         - ORK_BUILD_KEY (GitHub secret) matches that token exactly');
+  console.log('         - the rule is ordered ABOVE whatever issues the challenge');
+  console.log('         - its action skips that challenge feature for this match');
 } else {
-  console.log('VERDICT: ❌ ORK is blocked from CI (Cloudflare).');
-  console.log('         Options: ORK-side WAF skip rule (secret header), or');
-  console.log('         Playwright (real Chromium) in the Action.');
+  console.log('VERDICT: ❌ Blocked (as expected without a header). Set ORK_BUILD_KEY to test the bypass.');
 }
 process.exit(reachable ? 0 : 1);

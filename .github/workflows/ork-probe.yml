@@ -28,4 +28,7 @@ jobs:
         run: curl -s https://api.ipify.org && echo
 
       - name: Probe the ORK events endpoint
+        env:
+          # Add this as a repository secret; CI masks it in the logs.
+          ORK_BUILD_KEY: ${{ secrets.ORK_BUILD_KEY }}
         run: node scripts/ork-probe.mjs
