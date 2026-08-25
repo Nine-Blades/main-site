@@ -60,8 +60,14 @@ for (const attempt of attempts) {
     try {
       const data = JSON.parse(body);
       const events = data.Result || [];
-      console.log(`RESULT: ✅ JSON OK — ${events.length} event(s). ` +
-        `Sample: ${(events[0] && events[0].Name) || '(none)'}`);
+      console.log(`RESULT: ✅ JSON OK — ${events.length} event(s).`);
+      if (events.length) {
+        // Capture the real data shape so the renderer can emit accurate JSON-LD.
+        console.log('\nFIELD NAMES on an event:');
+        console.log('  ' + Object.keys(events[0]).join(', '));
+        console.log('\nSAMPLE (first 2 events, full JSON):');
+        console.log(JSON.stringify(events.slice(0, 2), null, 2));
+      }
       reachable = true;
     } catch {
       console.log('RESULT: HTTP 200 but body is not JSON. First 160 chars:');
