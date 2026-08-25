@@ -189,7 +189,6 @@ async function enrich(ev) {
 function cardHtml(e) {
   const rows = [`            <div class="event-date">${esc(formatRange(e.startIso, e.endIso))}</div>`];
   if (e.parkName) rows.push(`            <div class="event-date">${esc(e.parkName)}</div>`);
-  if (e.price === 0) rows.push('            <div class="event-date">Free</div>');
   if (e.description) rows.push(`            <div class="event-description">${esc(e.description)}</div>`);
   return `        <a class="event-card" href="${esc(e.url)}" target="_blank" rel="noopener noreferrer">
           <div class="event-header">${esc(e.name)}</div>
@@ -210,13 +209,10 @@ function eventLd(e) {
     location: e.location, organizer: ORG, url: e.url,
   };
   if (e.description) obj.description = e.description;
-  if (e.price != null) {
-    obj.offers = {
-      '@type': 'Offer', price: String(e.price), priceCurrency: 'CAD',
-      availability: 'https://schema.org/InStock', url: e.url, validFrom: e.startIso,
-    };
-    obj.isAccessibleForFree = e.price === 0;
-  }
+  // offers/isAccessibleForFree intentionally omitted: the ORK's single Price
+  // field reads 0 even for events with real tiered admission passes (e.g.
+  // Battle of the Dens), so it can't be trusted as a free/paid signal. Re-add
+  // accurate offers once we read the event's passes from the ORK.
   return obj;
 }
 
