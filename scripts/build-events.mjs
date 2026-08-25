@@ -21,7 +21,19 @@ const ORK = 'https://ork.amtgard.com/orkservice/Json/index.php';
 const SEARCH = `${ORK}?call=SearchService%2FEvent&date_order=true&name=&limit=200&kingdom_id=31`;
 const DETAIL = (id) => `${ORK}?call=Event%2FGetEventDetails&request=&request%5BEventId%5D=${id}&request%5BCurrent%5D=true`;
 
-const TARGETS = ['index.html', 'events/index.html'];
+// Home + /events show all kingdom events; each chapter page shows only its
+// own park's events (filtered by ParkId from the same kingdom feed).
+const KINGDOM_TARGETS = ['index.html', 'events/index.html'];
+const CHAPTER_TARGETS = [
+  { file: 'chapters/bellhollow/index.html', parkId: 609 },
+  { file: 'chapters/felfrost/index.html', parkId: 277 },
+  { file: 'chapters/grandes-fourches/index.html', parkId: 1093 },
+  { file: 'chapters/heathens-cove/index.html', parkId: 901 },
+  { file: 'chapters/legends-library/index.html', parkId: 1059 },
+  { file: 'chapters/lichwood-grove/index.html', parkId: 615 },
+  { file: 'chapters/linnagond/index.html', parkId: 494 },
+  { file: 'chapters/wolvenfang/index.html', parkId: 77 },
+];
 const DESC_MAX = 300;
 const ORG = { '@type': 'Organization', name: 'Kingdom of the Nine Blades', url: 'https://nineblades.ca' };
 
@@ -163,6 +175,7 @@ async function enrich(ev) {
   return {
     name: ev.Name,
     parkName: ev.ParkName,
+    parkId: ev.ParkId,
     lastDate: (endRaw || startRaw).slice(0, 10),
     startIso, endIso, url,
     description: cleanDescription((occ && occ.Description) || ev.ShortDescription, DESC_MAX),
@@ -244,18 +257,26 @@ const events = enriched
   .filter((e) => e.lastDate >= today)
   .sort((a, b) => (a.startIso < b.startIso ? -1 : a.startIso > b.startIso ? 1 : 0));
 
-const cards = events.map(cardHtml).join('\n');
-const jsonld = jsonLdBlock(events);
+// Each render is a set of files that share the same event list. A chapter with
+// no upcoming events gets empty markers, so events.js falls back to client-side
+// loading there (and the page's recurring-schedule JSON-LD still stands).
+const renders = [
+  { label: 'kingdom (home + /events)', files: KINGDOM_TARGETS, events },
+  ...CHAPTER_TARGETS.map((c) => ({
+    label: c.file, files: [c.file], events: events.filter((e) => e.parkId === c.parkId),
+  })),
+];
 
 let wrote = 0;
-for (const file of TARGETS) {
-  const before = await readFile(file, 'utf8');
-  let after = injectBetween(before, '<!-- EVENTS:START -->', '<!-- EVENTS:END -->', cards);
-  after = injectBetween(after, '<!-- EVENTS-JSONLD:START -->', '<!-- EVENTS-JSONLD:END -->', jsonld);
-  if (after !== before) { await writeFile(file, after); wrote++; }
-  console.log(`${file}: ${after !== before ? 'updated' : 'unchanged'}`);
+for (const r of renders) {
+  const cards = r.events.map(cardHtml).join('\n');
+  const jsonld = jsonLdBlock(r.events);
+  for (const file of r.files) {
+    const before = await readFile(file, 'utf8');
+    let after = injectBetween(before, '<!-- EVENTS:START -->', '<!-- EVENTS:END -->', cards);
+    after = injectBetween(after, '<!-- EVENTS-JSONLD:START -->', '<!-- EVENTS-JSONLD:END -->', jsonld);
+    if (after !== before) { await writeFile(file, after); wrote++; }
+  }
+  console.log(`${r.label}: ${r.events.length} event(s)`);
 }
-
-const withLd = events.filter((e) => e.location).length;
-const free = events.filter((e) => e.price === 0).length;
-console.log(`\n${events.length} upcoming; ${withLd} with JSON-LD; ${free} free; ${wrote} file(s) changed.`);
+console.log(`\n${events.length} kingdom upcoming; ${wrote} file(s) changed.`);

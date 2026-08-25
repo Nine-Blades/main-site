@@ -50,6 +50,9 @@
        
     <!-- Favicon -->
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
+    <!-- EVENTS-JSONLD:START -->
+    <!-- EVENTS-JSONLD:END -->
 </head>
 <body>
     <!-- Navbar is loaded dynamically via JavaScript -->
@@ -117,8 +120,11 @@
         <section class="chapter-section">
             <h2 class="section-title">Chapter Events</h2>
             
-            <div class="events-grid">
-                <!-- Event cards will be dynamically loaded via events.js -->
+            <div class="events-grid" data-prerendered="true">
+                <!-- EVENTS:START -->
+                <!-- Prerendered by scripts/build-events.mjs; falls back to
+                     client-side events.js if empty. -->
+                <!-- EVENTS:END -->
             </div>
         </section>
 
