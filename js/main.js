@@ -5,7 +5,6 @@ const KINGDOM_ID = 31;
 
 // Map of chapter slugs to their ORK park IDs
 const PARK_IDS = {
-    'twilight-peak': 79, // Replace with actual ORK park ID
     'felfrost': 277,      // Replace with actual ORK park ID
     'linnagond': 494,     // Replace with actual ORK park ID
     'heathens-cove': 901, // Replace with actual ORK park ID
