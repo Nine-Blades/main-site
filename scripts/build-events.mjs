@@ -1,53 +1,44 @@
 // Prerender upcoming Kingdom events into the static HTML at build time, so
-// crawlers (and users with JS off) see a populated events section plus
+// crawlers (and users with JS off) see a populated events section plus rich
 // schema.org/Event JSON-LD — instead of the empty grid the client-side
 // js/events.js leaves behind.
 //
-// Data source:
-//   - live:    fetch the ORK with the x-nb-build header (ORK_BUILD_KEY secret)
-//   - testing: set ORK_FIXTURE=path/to/events.json to render from a file
+// Two ORK calls: SearchService/Event for the list, then Event/GetEventDetails
+// per event (the jsork call) for the end date, full description, real venue
+// address, and price. Both use the x-nb-build header (ORK_BUILD_KEY).
 //
-// GUARD: if the fetch fails, is Cloudflare-challenged, isn't JSON, or yields no
-// upcoming events, the script writes NOTHING and exits 0 — the last good render
-// stays on the page. It never blanks the events section.
+// Testing: set ORK_FIXTURE=path.json to a { "search": [...], "details": {id:{...}} }
+// object to render offline.
 //
-// Injects between these markers (must already exist in each target page):
-//   <!-- EVENTS:START -->        ... event cards ...        <!-- EVENTS:END -->
-//   <!-- EVENTS-JSONLD:START --> ... <script> JSON-LD ...   <!-- EVENTS-JSONLD:END -->
+// GUARD: if the SEARCH fails / is Cloudflare-challenged / returns no upcoming
+// events, the script writes NOTHING and exits 0 — the last good render stays.
+// A failed *detail* call degrades that one event to list-only data (still a
+// card, just without end date / rich JSON-LD).
 
 import { readFile, writeFile } from 'node:fs/promises';
 
-const ENDPOINT =
-  'https://ork.amtgard.com/orkservice/Json/index.php' +
-  '?call=SearchService%2FEvent&date_order=true&name=&limit=200&kingdom_id=31';
+const ORK = 'https://ork.amtgard.com/orkservice/Json/index.php';
+const SEARCH = `${ORK}?call=SearchService%2FEvent&date_order=true&name=&limit=200&kingdom_id=31`;
+const DETAIL = (id) => `${ORK}?call=Event%2FGetEventDetails&request=&request%5BEventId%5D=${id}&request%5BCurrent%5D=true`;
 
 const TARGETS = ['index.html', 'events/index.html'];
-
+const DESC_MAX = 300;
 const ORG = { '@type': 'Organization', name: 'Kingdom of the Nine Blades', url: 'https://nineblades.ca' };
 
-// ParkId -> street address, derived from the chapter pages. Update if a park
-// moves. Events at these parks get a full PostalAddress in their JSON-LD;
-// events elsewhere (or kingdom-wide, ParkId 0) render as a card without
-// location-bearing structured data rather than a faked address.
-const PARK_ADDRESSES = {
-  79:   { name: 'Twilight Peak',   streetAddress: '145 Hilton Ave',     addressLocality: 'Toronto',    addressRegion: 'ON', postalCode: 'M5R 3E9' },
-  277:  { name: 'Felfrost',        streetAddress: "600 Hog's Back Road", addressLocality: 'Ottawa',     addressRegion: 'ON' },
-  494:  { name: 'Linnagond',       streetAddress: '610 Parkhill Rd W',  addressLocality: 'Peterborough', addressRegion: 'ON' },
-  609:  { name: 'Bellhollow',      streetAddress: '12 Catharine Ave',   addressLocality: 'Brantford',  addressRegion: 'ON' },
-  615:  { name: 'Lichwood Grove',  streetAddress: '90 Westmount Rd N',  addressLocality: 'Waterloo',   addressRegion: 'ON' },
-  901:  { name: "Heathen's Cove",  streetAddress: '99 University Ave',  addressLocality: 'Kingston',   addressRegion: 'ON' },
-  1059: { name: 'Legends Library', streetAddress: '265 Sunnidale Rd',   addressLocality: 'Barrie',     addressRegion: 'ON' },
-  1093: { name: 'Grandes Fourches', streetAddress: '700 Rue du Cégep',  addressLocality: 'Sherbrooke', addressRegion: 'QC', postalCode: 'J1E 2K1' },
-  77:   { name: 'Wolvenfang',      streetAddress: '1918 Main St',       addressLocality: 'Val Caron',  addressRegion: 'ON' },
+const PROVINCE_CODE = {
+  ontario: 'ON', quebec: 'QC', 'québec': 'QC', manitoba: 'MB', alberta: 'AB',
+  'british columbia': 'BC', saskatchewan: 'SK', 'nova scotia': 'NS', 'new brunswick': 'NB',
+  'newfoundland and labrador': 'NL', 'prince edward island': 'PE',
+  'northwest territories': 'NT', yukon: 'YT', nunavut: 'NU',
 };
+
+const FIXTURE = process.env.ORK_FIXTURE
+  ? JSON.parse(await readFile(process.env.ORK_FIXTURE, 'utf8')) : null;
 
 // ---- helpers ---------------------------------------------------------------
 
-function esc(s) {
-  return String(s)
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
+const esc = (s) => String(s)
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 function torontoToday() {
   const p = new Intl.DateTimeFormat('en-CA', {
@@ -57,141 +48,204 @@ function torontoToday() {
   return `${g('year')}-${g('month')}-${g('day')}`;
 }
 
-// Offset America/Toronto has at a given wall-clock time — DST-correct, no
-// hardcoded switch dates. "2026-10-17T10:00:00" -> "-04:00".
+// DST-correct America/Toronto offset for a wall-clock time. "…T10:00:00" -> "-04:00".
 function torontoOffset(localIso) {
   const name = new Intl.DateTimeFormat('en-US', {
     timeZone: 'America/Toronto', timeZoneName: 'shortOffset',
   }).formatToParts(new Date(localIso + 'Z')).find((x) => x.type === 'timeZoneName').value;
   const m = name.match(/GMT([+-]?)(\d{1,2})(?::?(\d{2}))?/);
   if (!m) return '-05:00';
-  const sign = m[1] === '-' ? '-' : '+';
-  return `${sign}${String(Math.abs(+m[2])).padStart(2, '0')}:${m[3] || '00'}`;
+  return `${m[1] === '-' ? '-' : '+'}${String(Math.abs(+m[2])).padStart(2, '0')}:${m[3] || '00'}`;
 }
 
-function parseEvent(ev) {
-  const localIso = ev.NextDate.replace(' ', 'T');       // "2026-10-17T10:00:00"
-  const offset = torontoOffset(localIso);
-  const startDate = localIso + offset;                   // ISO 8601 with offset
-  const instant = new Date(startDate);
-  const display = new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'America/Toronto', weekday: 'short', month: 'short', day: 'numeric',
-    year: 'numeric', hour: 'numeric', minute: '2-digit',
-  }).format(instant);
-  const url = `https://ork.amtgard.com/orkui/index.php?Route=Event/detail/${ev.EventId}/${ev.NextDetailId}`;
-  return { ev, startDate, display, url, description: cleanDescription(ev.ShortDescription) };
+// "2026-10-17 10:00:00" -> "2026-10-17T10:00:00-04:00"
+function toIso(dt) {
+  const local = dt.replace(' ', 'T');
+  return local + torontoOffset(local);
 }
 
-// The ORK pre-truncates ShortDescription (often mid-word). Collapse whitespace,
-// drop light markdown, and if it looks cut off, trim to a word boundary + "…".
-function cleanDescription(raw) {
+const fmt = (opts) => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Toronto', ...opts });
+const D_FULL = fmt({ weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+const D_NOYR = fmt({ weekday: 'short', month: 'short', day: 'numeric' });
+const T_ONLY = fmt({ hour: 'numeric', minute: '2-digit' });
+const DAYKEY = fmt({ year: 'numeric', month: '2-digit', day: 'numeric' });
+
+function formatRange(startIso, endIso) {
+  const s = new Date(startIso);
+  if (!endIso) return `${D_FULL.format(s)} · ${T_ONLY.format(s)}`;
+  const e = new Date(endIso);
+  if (DAYKEY.format(s) === DAYKEY.format(e)) {
+    return `${D_FULL.format(s)} · ${T_ONLY.format(s)} – ${T_ONLY.format(e)}`;
+  }
+  return `${D_NOYR.format(s)} – ${D_FULL.format(e)}`;
+}
+
+function cleanDescription(raw, max) {
   if (!raw) return '';
   let s = String(raw).replace(/[\r\n]+/g, ' ').replace(/\[(.+?)\]\(.+?\)/g, '$1')
     .replace(/[#*`_]+/g, '').replace(/\s+/g, ' ').trim();
-  const truncated = /\s$/.test(raw) || s.length >= 90;
-  if (truncated) {
-    s = s.replace(/[\s,;:.–-]+\S*$/, '').trim()
-         .replace(/\s+(and|or|the|a|an|to|of|for|with|in|on|at|&)$/i, '').trim() + '…';
+  if (max && s.length > max) {
+    s = s.slice(0, max).replace(/[\s,;:.–-]+\S*$/, '').trim() + '…';
   }
   return s;
 }
 
-function locationFor(ev) {
-  const a = PARK_ADDRESSES[ev.ParkId];
-  if (!a) return null; // no reliable address -> no location-bearing JSON-LD
-  const address = { '@type': 'PostalAddress', streetAddress: a.streetAddress,
-    addressLocality: a.addressLocality, addressRegion: a.addressRegion, addressCountry: 'CA' };
-  if (a.postalCode) address.postalCode = a.postalCode;
-  return { '@type': 'Place', name: a.name, address };
+// ---- ORK access ------------------------------------------------------------
+
+async function fetchOrk(url) {
+  const key = process.env.ORK_BUILD_KEY;
+  if (!key) { console.error('GUARD: ORK_BUILD_KEY not set.'); return null; }
+  try {
+    const res = await fetch(url, { headers: { 'x-nb-build': key }, signal: AbortSignal.timeout(20000) });
+    const ct = res.headers.get('content-type') || '';
+    const body = await res.text();
+    if (/just a moment|challenge-platform|cf[-_]mitigated/i.test(body) || ct.includes('text/html')) {
+      console.error('GUARD: Cloudflare challenge / non-JSON.');
+      return null;
+    }
+    return JSON.parse(body);
+  } catch (err) {
+    console.error(`GUARD: fetch failed (${err.name}: ${err.message}).`);
+    return null;
+  }
+}
+
+async function loadSearch() {
+  if (FIXTURE) return FIXTURE.search || (Array.isArray(FIXTURE) ? FIXTURE : []);
+  const data = await fetchOrk(SEARCH);
+  return data ? (data.Result || []) : null;
+}
+
+// Returns the single occurrence for an event, or null.
+async function loadDetail(eventId, detailId) {
+  const data = FIXTURE ? (FIXTURE.details || {})[eventId] : await fetchOrk(DETAIL(eventId));
+  const arr = data && data.CalendarEventDetails;
+  if (!Array.isArray(arr) || !arr.length) return null;
+  const byId = arr.find((o) => Number(o.EventCalendarDetailId) === Number(detailId));
+  if (byId) return byId;
+  const today = torontoToday();
+  const upcoming = arr.filter((o) => o.EventStart && o.EventStart.slice(0, 10) >= today)
+    .sort((a, b) => (a.EventStart < b.EventStart ? -1 : 1));
+  return upcoming[0] || arr[0];
+}
+
+// ---- shaping ---------------------------------------------------------------
+
+function locationFrom(occ, parkName) {
+  if (!occ) return null;
+  const street = occ.Address ? occ.Address.split(',')[0].trim() : '';
+  const region = PROVINCE_CODE[(occ.Province || '').toLowerCase()] || occ.Province || undefined;
+  if (!street && !occ.City) return null; // not enough to place it
+  const address = { '@type': 'PostalAddress', addressCountry: /united states|usa/i.test(occ.Country || '') ? 'US' : 'CA' };
+  if (street) address.streetAddress = street;
+  if (occ.City) address.addressLocality = occ.City;
+  if (region) address.addressRegion = region;
+  if (occ.PostalCode) address.postalCode = occ.PostalCode;
+  const place = { '@type': 'Place', address };
+  if (parkName) place.name = parkName;
+  try {
+    const loc = JSON.parse(occ.Location);
+    if (loc && loc.location && typeof loc.location.lat === 'number') {
+      place.geo = { '@type': 'GeoCoordinates', latitude: loc.location.lat, longitude: loc.location.lng };
+    }
+  } catch { /* Location may be absent or non-JSON */ }
+  return place;
+}
+
+async function enrich(ev) {
+  const occ = await loadDetail(ev.EventId, ev.NextDetailId);
+  const startRaw = (occ && occ.EventStart) || ev.NextDate;
+  const endRaw = occ && occ.EventEnd && occ.EventEnd > occ.EventStart ? occ.EventEnd : null;
+  const startIso = toIso(startRaw);
+  const endIso = endRaw ? toIso(endRaw) : null;
+  const url = (occ && occ.Url) ? occ.Url
+    : `https://ork.amtgard.com/orkui/index.php?Route=Event/detail/${ev.EventId}/${ev.NextDetailId}`;
+  return {
+    name: ev.Name,
+    parkName: ev.ParkName,
+    lastDate: (endRaw || startRaw).slice(0, 10),
+    startIso, endIso, url,
+    description: cleanDescription((occ && occ.Description) || ev.ShortDescription, DESC_MAX),
+    price: occ && occ.Price != null ? Number(occ.Price) : null,
+    location: locationFrom(occ, ev.ParkName),
+  };
 }
 
 // ---- rendering -------------------------------------------------------------
 
-function cardHtml({ ev, display, url, description }) {
-  const rows = [`            <div class="event-date">${esc(display)}</div>`];
-  if (ev.ParkName) rows.push(`            <div class="event-date">${esc(ev.ParkName)}</div>`);
-  if (description) rows.push(`            <div class="event-description">${esc(description)}</div>`);
-  return `        <a class="event-card" href="${esc(url)}" target="_blank" rel="noopener noreferrer">
-          <div class="event-header">${esc(ev.Name)}</div>
+function cardHtml(e) {
+  const rows = [`            <div class="event-date">${esc(formatRange(e.startIso, e.endIso))}</div>`];
+  if (e.parkName) rows.push(`            <div class="event-date">${esc(e.parkName)}</div>`);
+  if (e.price === 0) rows.push('            <div class="event-date">Free</div>');
+  if (e.description) rows.push(`            <div class="event-description">${esc(e.description)}</div>`);
+  return `        <a class="event-card" href="${esc(e.url)}" target="_blank" rel="noopener noreferrer">
+          <div class="event-header">${esc(e.name)}</div>
           <div class="event-content">
 ${rows.join('\n')}
           </div>
         </a>`;
 }
 
-function jsonLdBlock(parsed) {
-  const events = parsed
-    .map(({ ev, startDate, url, description }) => {
-      const location = locationFor(ev);
-      if (!location) return null; // mark up only events we can place accurately
-      const obj = {
-        '@context': 'https://schema.org', '@type': 'Event',
-        name: ev.Name, startDate,
-        eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
-        eventStatus: 'https://schema.org/EventScheduled',
-        location, organizer: ORG, url,
-      };
-      if (description) obj.description = description;
-      return obj;
-    })
-    .filter(Boolean);
-  if (!events.length) return '';
-  const json = JSON.stringify(events.length === 1 ? events[0] : events, null, 2)
-    .replace(/</g, '\\u003c'); // never let a "<" break out of the script tag
+function eventLd(e) {
+  if (!e.location) return null; // only mark up events we can place
+  const obj = {
+    '@context': 'https://schema.org', '@type': 'Event',
+    name: e.name, startDate: e.startIso,
+    ...(e.endIso ? { endDate: e.endIso } : {}),
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    eventStatus: 'https://schema.org/EventScheduled',
+    location: e.location, organizer: ORG, url: e.url,
+  };
+  if (e.description) obj.description = e.description;
+  if (e.price != null) {
+    obj.offers = {
+      '@type': 'Offer', price: String(e.price), priceCurrency: 'CAD',
+      availability: 'https://schema.org/InStock', url: e.url, validFrom: e.startIso,
+    };
+    obj.isAccessibleForFree = e.price === 0;
+  }
+  return obj;
+}
+
+function jsonLdBlock(events) {
+  const items = events.map(eventLd).filter(Boolean);
+  if (!items.length) return '';
+  const json = JSON.stringify(items.length === 1 ? items[0] : items, null, 2).replace(/</g, '\\u003c');
   return `    <script type="application/ld+json">\n${json}\n    </script>`;
 }
 
 function injectBetween(html, start, end, content) {
   const s = html.indexOf(start);
   const e = html.indexOf(end);
-  if (s === -1 || e === -1 || e < s) {
-    throw new Error(`markers not found or out of order: ${start} / ${end}`);
-  }
+  if (s === -1 || e === -1 || e < s) throw new Error(`markers not found: ${start}`);
   return html.slice(0, s + start.length) + '\n' + content + '\n' + html.slice(e).replace(/^\s*/, '    ');
-}
-
-// ---- data source -----------------------------------------------------------
-
-async function loadEvents() {
-  if (process.env.ORK_FIXTURE) {
-    const data = JSON.parse(await readFile(process.env.ORK_FIXTURE, 'utf8'));
-    return Array.isArray(data) ? data : (data.Result || []);
-  }
-  const key = process.env.ORK_BUILD_KEY;
-  if (!key) { console.error('GUARD: ORK_BUILD_KEY not set — leaving pages unchanged.'); return null; }
-  try {
-    const res = await fetch(ENDPOINT, { headers: { 'x-nb-build': key }, signal: AbortSignal.timeout(20000) });
-    const ct = res.headers.get('content-type') || '';
-    const body = await res.text();
-    if (/just a moment|challenge-platform|cf[-_]mitigated/i.test(body) || ct.includes('text/html')) {
-      console.error('GUARD: Cloudflare challenge / non-JSON — leaving pages unchanged.');
-      return null;
-    }
-    return JSON.parse(body).Result || [];
-  } catch (err) {
-    console.error(`GUARD: fetch failed (${err.name}: ${err.message}) — leaving pages unchanged.`);
-    return null;
-  }
 }
 
 // ---- main ------------------------------------------------------------------
 
-const raw = await loadEvents();
-if (!raw) process.exit(0); // guard already logged; nothing written
+const raw = await loadSearch();
+if (!raw) process.exit(0); // guard logged; nothing written
 
 const today = torontoToday();
-const upcoming = raw
+const listUpcoming = raw
   .filter((ev) => ev && ev.NextDate && ev.NextDate.slice(0, 10) >= today)
   .sort((a, b) => (a.NextDate < b.NextDate ? -1 : a.NextDate > b.NextDate ? 1 : a.EventId - b.EventId));
 
-if (!upcoming.length) {
-  console.error('GUARD: no upcoming events returned — leaving pages unchanged.');
+if (!listUpcoming.length) {
+  console.error('GUARD: no upcoming events — leaving pages unchanged.');
   process.exit(0);
 }
 
-const parsed = upcoming.map(parseEvent);
-const cards = parsed.map(cardHtml).join('\n');
-const jsonld = jsonLdBlock(parsed);
+// Enrich with detail, then re-filter by the (now known) end date so multi-day
+// events that started yesterday but run through today still show.
+const enriched = [];
+for (const ev of listUpcoming) enriched.push(await enrich(ev));
+const events = enriched
+  .filter((e) => e.lastDate >= today)
+  .sort((a, b) => (a.startIso < b.startIso ? -1 : a.startIso > b.startIso ? 1 : 0));
+
+const cards = events.map(cardHtml).join('\n');
+const jsonld = jsonLdBlock(events);
 
 let wrote = 0;
 for (const file of TARGETS) {
@@ -202,5 +256,6 @@ for (const file of TARGETS) {
   console.log(`${file}: ${after !== before ? 'updated' : 'unchanged'}`);
 }
 
-const marked = parsed.filter((p) => locationFor(p.ev)).length;
-console.log(`\n${upcoming.length} upcoming event(s); ${marked} with JSON-LD location; ${wrote} file(s) changed.`);
+const withLd = events.filter((e) => e.location).length;
+const free = events.filter((e) => e.price === 0).length;
+console.log(`\n${events.length} upcoming; ${withLd} with JSON-LD; ${free} free; ${wrote} file(s) changed.`);
