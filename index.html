@@ -123,6 +123,9 @@
         }
 
     </style>
+
+    <!-- EVENTS-JSONLD:START -->
+    <!-- EVENTS-JSONLD:END -->
 </head>
 <body>
     <!-- Navbar is loaded dynamically via JavaScript -->
@@ -179,8 +182,11 @@
     <section class="guides-section">
         <h2 class="section-title">Kingdom Events</h2>
         
-        <div class="events-grid">
-            <!-- Event cards will be dynamically loaded via events.js -->
+        <div class="events-grid" data-prerendered="true">
+            <!-- EVENTS:START -->
+            <!-- Prerendered by scripts/build-events.mjs. If this stays empty,
+                 js/events.js falls back to client-side loading. -->
+            <!-- EVENTS:END -->
         </div>
     </section>
 

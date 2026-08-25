@@ -1,0 +1,49 @@
+name: Prerender events
+
+# Renders upcoming Kingdom events (from the ORK) into the static HTML + JSON-LD
+# so crawlers see a populated events section. Runs daily and on demand; commits
+# only when the output actually changes, which triggers the DigitalOcean deploy.
+#
+# The renderer's guard means a failed/blocked/empty fetch writes nothing and
+# exits 0 — so a bad ORK day can never blank the events section or fail loudly.
+
+on:
+  schedule:
+    - cron: '0 10 * * *'   # ~6am ET (10:00 UTC; 6am EDT / 5am EST)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: prerender-events
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Render events into the pages
+        env:
+          ORK_BUILD_KEY: ${{ secrets.ORK_BUILD_KEY }}
+        run: node scripts/build-events.mjs
+
+      - name: Commit & push if changed
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -m "Prerender ORK events (automated)"
+            git push
+          else
+            echo "No changes — pages already current."
+          fi

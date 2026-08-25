@@ -99,6 +99,15 @@ function createEventCard(event) {
 async function loadEvents() {
     // Get the volunteers container
     const eventsGrid = document.querySelector('.events-grid');
+
+    // If this grid was prerendered at build time (scripts/build-events.mjs) and
+    // actually has cards, leave it — crawlers and users then see the same
+    // content, matching the injected JSON-LD. Only take over as a fallback when
+    // the prerendered grid is empty.
+    if (eventsGrid && eventsGrid.dataset.prerendered && eventsGrid.querySelector('.event-card')) {
+        return;
+    }
+
     eventsGrid.innerHTML = '<div class="loading">Loading Events data...</div>';
 
     // Get the current chapter from the URL path

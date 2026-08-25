@@ -13,6 +13,7 @@
     <!-- CSS -->
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/events.css">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-BWQRL0R2B9"></script>
     <script>
@@ -155,6 +156,9 @@
     </style>
     <!-- Favicon -->
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
+    <!-- EVENTS-JSONLD:START -->
+    <!-- EVENTS-JSONLD:END -->
 </head>
 
 <body>
@@ -169,6 +173,15 @@
 
     <!-- Events Content -->
     <div class="event-container">
+        <!-- Upcoming Events (prerendered from the ORK by scripts/build-events.mjs) -->
+        <section class="event-section">
+            <h2>Upcoming Events</h2>
+            <div class="events-grid" data-prerendered="true">
+                <!-- EVENTS:START -->
+                <!-- EVENTS:END -->
+            </div>
+        </section>
+
         <!-- Frostbite -->
         <section class="event-section">
             <!-- can be referenced with https://nineblades.ca/events#frostbite-->
