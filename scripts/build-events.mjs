@@ -209,10 +209,15 @@ function eventLd(e) {
     location: e.location, organizer: ORG, url: e.url,
   };
   if (e.description) obj.description = e.description;
-  // offers/isAccessibleForFree intentionally omitted: the ORK's single Price
-  // field reads 0 even for events with real tiered admission passes (e.g.
-  // Battle of the Dens), so it can't be trusted as a free/paid signal. Re-add
-  // accurate offers once we read the event's passes from the ORK.
+  // offers/isAccessibleForFree intentionally omitted. The ORK's Price field is
+  // legacy and always 0; the real tiered fees (ork_event_fees) are not exposed
+  // by any whitelisted JSON service today, so free vs. paid is currently
+  // indistinguishable via the API. When the scoped read-only Event/GetEventFees
+  // endpoint lands — takes EventCalendarDetailId, returns a list of
+  // { AdmissionType, Cost, SortOrder } — fetch it per occurrence and build
+  // offers from the passes (an AggregateOffer with lowPrice/highPrice, and
+  // isAccessibleForFree only when every Cost is 0). Do not scrape; do not trust
+  // Price.
   return obj;
 }
 
