@@ -171,15 +171,26 @@ function locationFrom(occ, parkName) {
 
 async function enrich(ev) {
   const occ = await loadDetail(ev.EventId, ev.NextDetailId);
-  const startRaw = (occ && occ.EventStart) || ev.NextDate;
-  const startIso = toIso(startRaw);
+  // Prefer the occurrence's start, but the ORK sometimes returns a zero-date
+  // occurrence ("0000-00-00 00:00:00") for an event whose listing date is fine
+  // (seen on 18877 "Winter Coronation"). Fall back to the search feed's
+  // NextDate — which the caller has already checked is a real upcoming date —
+  // rather than dropping the event.
+  let startRaw = occ ? occ.EventStart : null;
+  let startIso = toIso(startRaw);
+  if (!startIso && occ) {
+    console.warn(`Event ${ev.EventId} "${ev.Name}": bad occurrence start ${JSON.stringify(startRaw)}; using list date ${JSON.stringify(ev.NextDate)}`);
+  }
+  if (!startIso) { startRaw = ev.NextDate; startIso = toIso(startRaw); }
   if (!startIso) {
-    // Bad/missing date on one event: skip it (don't render) rather than crash.
+    // Bad/missing date everywhere: skip it (don't render) rather than crash.
     console.warn(`Skipping event ${ev.EventId} "${ev.Name}" — unparseable start date: ${JSON.stringify(startRaw)}`);
     return null;
   }
-  const endRaw = occ && occ.EventEnd && occ.EventEnd > occ.EventStart ? occ.EventEnd : null;
+  // End date only if it's a real date after the start we actually used.
+  let endRaw = occ && occ.EventEnd && occ.EventEnd > startRaw ? occ.EventEnd : null;
   const endIso = endRaw ? toIso(endRaw) : null;
+  if (!endIso) endRaw = null;
   const url = (occ && occ.Url) ? occ.Url
     : `https://ork.amtgard.com/orkui/index.php?Route=Event/detail/${ev.EventId}/${ev.NextDetailId}`;
   return {
