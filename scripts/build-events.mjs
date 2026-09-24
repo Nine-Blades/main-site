@@ -62,17 +62,22 @@ function torontoToday() {
 
 // DST-correct America/Toronto offset for a wall-clock time. "…T10:00:00" -> "-04:00".
 function torontoOffset(localIso) {
+  const d = new Date(localIso + 'Z');
+  if (Number.isNaN(d.getTime())) return '-05:00'; // guard; callers validate first
   const name = new Intl.DateTimeFormat('en-US', {
     timeZone: 'America/Toronto', timeZoneName: 'shortOffset',
-  }).formatToParts(new Date(localIso + 'Z')).find((x) => x.type === 'timeZoneName').value;
+  }).formatToParts(d).find((x) => x.type === 'timeZoneName').value;
   const m = name.match(/GMT([+-]?)(\d{1,2})(?::?(\d{2}))?/);
   if (!m) return '-05:00';
   return `${m[1] === '-' ? '-' : '+'}${String(Math.abs(+m[2])).padStart(2, '0')}:${m[3] || '00'}`;
 }
 
-// "2026-10-17 10:00:00" -> "2026-10-17T10:00:00-04:00"
+// "2026-10-17 10:00:00" -> "2026-10-17T10:00:00-04:00", or null if the value is
+// missing or unparseable (a single bad date must not crash the whole build).
 function toIso(dt) {
-  const local = dt.replace(' ', 'T');
+  if (typeof dt !== 'string') return null;
+  const local = dt.trim().replace(' ', 'T');
+  if (Number.isNaN(new Date(local + 'Z').getTime())) return null;
   return local + torontoOffset(local);
 }
 
@@ -167,8 +172,13 @@ function locationFrom(occ, parkName) {
 async function enrich(ev) {
   const occ = await loadDetail(ev.EventId, ev.NextDetailId);
   const startRaw = (occ && occ.EventStart) || ev.NextDate;
-  const endRaw = occ && occ.EventEnd && occ.EventEnd > occ.EventStart ? occ.EventEnd : null;
   const startIso = toIso(startRaw);
+  if (!startIso) {
+    // Bad/missing date on one event: skip it (don't render) rather than crash.
+    console.warn(`Skipping event ${ev.EventId} "${ev.Name}" — unparseable start date: ${JSON.stringify(startRaw)}`);
+    return null;
+  }
+  const endRaw = occ && occ.EventEnd && occ.EventEnd > occ.EventStart ? occ.EventEnd : null;
   const endIso = endRaw ? toIso(endRaw) : null;
   const url = (occ && occ.Url) ? occ.Url
     : `https://ork.amtgard.com/orkui/index.php?Route=Event/detail/${ev.EventId}/${ev.NextDetailId}`;
@@ -255,6 +265,7 @@ if (!listUpcoming.length) {
 const enriched = [];
 for (const ev of listUpcoming) enriched.push(await enrich(ev));
 const events = enriched
+  .filter(Boolean) // drop events skipped for bad dates
   .filter((e) => e.lastDate >= today)
   .sort((a, b) => (a.startIso < b.startIso ? -1 : a.startIso > b.startIso ? 1 : 0));
 
