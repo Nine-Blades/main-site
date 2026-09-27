@@ -1,6 +1,15 @@
 // Configuration
 const ORK_API_BASE = 'https://ork.amtgard.com/orkservice/Json/index.php';
 
+// Sent as X-ORK-Client on every ORK call so the ORK's Platform Trends tally
+// attributes this site by name instead of bucketing it under the visitor's
+// browser. Defined here because main.js loads before events.js, volunteers.js
+// and the inline officer script on every page that calls the ORK.
+// NOTE: a custom header makes these requests non-simple, so the browser now
+// sends a CORS preflight (OPTIONS) first. The ORK answers it -- keep in mind
+// when testing that curl never triggers a preflight, only a real browser does.
+const ORK_CLIENT = 'NineBlades.ca/1.0';
+
 const KINGDOM_ID = 31;
 
 // Map of chapter slugs to their ORK park IDs

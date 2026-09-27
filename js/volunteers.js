@@ -14,7 +14,7 @@
  */
 async function fetchParkOfficers(parkId) {
     try {
-        const response = await fetch(ORK_API_BASE + '?request=&call=Park/GetOfficers&request[ParkId]=' + parkId);
+        const response = await fetch(ORK_API_BASE + '?request=&call=Park/GetOfficers&request[ParkId]=' + parkId, { headers: { 'X-ORK-Client': ORK_CLIENT } });
         
         if (!response.ok) {
             throw new Error(`Failed to fetch officers: ${response.status}`);
@@ -35,7 +35,7 @@ async function fetchParkOfficers(parkId) {
  */
 async function fetchKingdomOfficers(kingdomId) {
     try {
-        const response = await fetch(ORK_API_BASE + '?request=&call=Kingdom/GetOfficers&request[KingdomId]=' + kingdomId);
+        const response = await fetch(ORK_API_BASE + '?request=&call=Kingdom/GetOfficers&request[KingdomId]=' + kingdomId, { headers: { 'X-ORK-Client': ORK_CLIENT } });
         
         if (!response.ok) {
             throw new Error(`Failed to fetch officers: ${response.status}`);

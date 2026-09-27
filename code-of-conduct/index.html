@@ -274,7 +274,7 @@
             const grid = document.querySelector('#bod-auto-seats');
             if (!grid) return;
             try {
-                const response = await fetch(ORK_API_BASE + '?request=&call=Kingdom/GetOfficers&request[KingdomId]=' + KINGDOM_ID);
+                const response = await fetch(ORK_API_BASE + '?request=&call=Kingdom/GetOfficers&request[KingdomId]=' + KINGDOM_ID, { headers: { 'X-ORK-Client': ORK_CLIENT } });
                 if (!response.ok) throw new Error(`ORK responded ${response.status}`);
                 const data = await response.json();
                 const officers = data.Officers || [];

@@ -24,7 +24,7 @@ function stripMarkdown(text) {
 
 async function fetchKingdomEvents(kingdomId) {
     try {
-        const response = await fetch(ORK_API_BASE + '?call=SearchService%2FEvent&date_order=true&name=&limit=200&kingdom_id=' + kingdomId);
+        const response = await fetch(ORK_API_BASE + '?call=SearchService%2FEvent&date_order=true&name=&limit=200&kingdom_id=' + kingdomId, { headers: { 'X-ORK-Client': ORK_CLIENT } });
         
         if (!response.ok) {
             throw new Error(`Failed to fetch events: ${response.status}`);
@@ -45,7 +45,7 @@ async function fetchKingdomEvents(kingdomId) {
  */
 async function fetchParkEvents(parkId) {
     try {
-        const response = await fetch(ORK_API_BASE + '?call=SearchService%2FEvent&date_order=true&name=&limit=200&park_id=' + parkId);
+        const response = await fetch(ORK_API_BASE + '?call=SearchService%2FEvent&date_order=true&name=&limit=200&park_id=' + parkId, { headers: { 'X-ORK-Client': ORK_CLIENT } });
         
         if (!response.ok) {
             throw new Error(`Failed to fetch events: ${response.status}`);
