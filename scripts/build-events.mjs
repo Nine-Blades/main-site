@@ -18,6 +18,10 @@
 import { readFile, writeFile } from 'node:fs/promises';
 
 const ORK = 'https://ork.amtgard.com/orkservice/Json/index.php';
+// Identifies this build to the ORK's Platform Trends tally, which otherwise
+// buckets us by User-Agent (here: bare node). x-nb-build is the WAF credential
+// and stays secret; this one is just a label and is safe in the repo.
+const ORK_CLIENT = 'NineBlades.ca/1.0';
 const SEARCH = `${ORK}?call=SearchService%2FEvent&date_order=true&name=&limit=200&kingdom_id=31`;
 const DETAIL = (id) => `${ORK}?call=Event%2FGetEventDetails&request=&request%5BEventId%5D=${id}&request%5BCurrent%5D=true`;
 
@@ -113,7 +117,10 @@ async function fetchOrk(url) {
   const key = process.env.ORK_BUILD_KEY;
   if (!key) { console.error('GUARD: ORK_BUILD_KEY not set.'); return null; }
   try {
-    const res = await fetch(url, { headers: { 'x-nb-build': key }, signal: AbortSignal.timeout(20000) });
+    const res = await fetch(url, {
+      headers: { 'x-nb-build': key, 'X-ORK-Client': ORK_CLIENT },
+      signal: AbortSignal.timeout(20000),
+    });
     const ct = res.headers.get('content-type') || '';
     const body = await res.text();
     if (/just a moment|challenge-platform|cf[-_]mitigated/i.test(body) || ct.includes('text/html')) {
